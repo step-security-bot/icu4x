@@ -138,7 +138,9 @@ impl DatagenProvider {
     pub fn with_tzif(self, _root: PathBuf) -> Result<Self, DataError> {
         Ok(Self {
             source: SourceData {
-                tzif_paths: Some(Arc::new(crate::transform::tzif::source::TzifPaths::new(_root)?)),
+                tzif_paths: Some(Arc::new(crate::transform::tzif::source::TzifPaths::new(
+                    _root,
+                )?)),
                 ..self.source
             },
         })
