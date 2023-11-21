@@ -156,6 +156,12 @@
     "trist": {
       "std_offset": -10800
     },
+    "uslax": {
+      "std_offset": 28800,
+      "dst_offset": 25200,
+      "dst_start": 10267639415299,
+      "dst_end": 10267639415051
+    },
     "zajnb": {
       "std_offset": -7200
     }
