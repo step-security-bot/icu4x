@@ -2,9 +2,11 @@
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
-//! Data exporter for [`BlobDataProvider`](crate::BlobDataProvider).
+//! Data exporter that creates a binary blob for use with [`BlobDataProvider`](crate::BlobDataProvider).
 //!
 //! This module can be used as a target for the `icu_datagen` crate.
+//!
+//! See our [datagen tutorial](https://github.com/unicode-org/icu4x/blob/main/docs/tutorials/data_management.md) for more information about different data providers.
 //!
 //! # Examples
 //!
@@ -15,7 +17,7 @@
 //! let mut blob: Vec<u8> = Vec::new();
 //!
 //! // Set up the exporter
-//! let mut exporter = BlobExporter::new_with_sink(Box::new(&mut blob));
+//! let mut exporter = BlobExporter::new_v2_with_sink(Box::new(&mut blob));
 //!
 //! // Export something
 //! DatagenDriver::new()
@@ -25,6 +27,7 @@
 //!     .unwrap();
 //!
 //! // communicate the blob to the client application (network, disk, etc.)
+//! # assert_eq!(blob, include_bytes!("../../tests/data/v2.postcard"));
 //! ```
 //!
 //! The resulting blob can now be used like this:
@@ -36,15 +39,18 @@
 //! use icu_provider_blob::BlobDataProvider;
 //!
 //! // obtain the data blob
-//! # let blob = std::fs::read(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/data/hello_world.postcard")).unwrap();
+//! # let blob = include_bytes!("../../tests/data/v2.postcard").to_vec();
 //!
 //! // Create a provider reading from the blob
-//! let provider =
-//!     BlobDataProvider::try_new_from_blob(blob.into_boxed_slice())
-//!         .expect("Should successfully read from blob");
+//! let provider = BlobDataProvider::try_new_from_blob(blob.into_boxed_slice())
+//!     .expect("Should successfully read from blob");
 //!
 //! // Use the provider as a `BufferProvider`
-//! let formatter = HelloWorldFormatter::try_new_with_buffer_provider(&provider, &langid!("en").into()).unwrap();
+//! let formatter = HelloWorldFormatter::try_new_with_buffer_provider(
+//!     &provider,
+//!     &langid!("en").into(),
+//! )
+//! .unwrap();
 //!
 //! assert_eq!(formatter.format_to_string(), "Hello World");
 //! ```

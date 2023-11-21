@@ -6,7 +6,6 @@
 
 use crate::source::*;
 use crate::transform::cldr::source::CldrCache;
-use crate::transform::tzif::source::TzifPaths;
 use crate::{CollationHanDatabase, CoverageLevel};
 use icu_provider::prelude::*;
 use std::fmt::Debug;
@@ -22,7 +21,6 @@ use std::sync::Arc;
 /// fail with the appropriate error:
 /// * [`is_missing_cldr_error`](Self::is_missing_cldr_error)
 /// * [`is_missing_icuexport_error`](Self::is_missing_icuexport_error)
-/// * [`is_missing_tzif_error`](Self::is_missing_tzif_error)
 /// * [`is_missing_segmenter_lstm_error`](Self::is_missing_segmenter_lstm_error)
 #[allow(clippy::exhaustive_structs)] // any information will be added to SourceData
 #[derive(Debug, Clone)]
@@ -33,10 +31,10 @@ pub struct DatagenProvider {
 
 impl DatagenProvider {
     /// The latest CLDR JSON tag that has been verified to work with this version of `icu_datagen`.
-    pub const LATEST_TESTED_CLDR_TAG: &'static str = "43.1.0";
+    pub const LATEST_TESTED_CLDR_TAG: &'static str = "44.0.0";
 
     /// The latest ICU export tag that has been verified to work with this version of `icu_datagen`.
-    pub const LATEST_TESTED_ICUEXPORT_TAG: &'static str = "icu4x/2023-05-02/73.x";
+    pub const LATEST_TESTED_ICUEXPORT_TAG: &'static str = "release-74-1";
 
     /// The latest segmentation LSTM model tag that has been verified to work with this version of `icu_datagen`.
     pub const LATEST_TESTED_SEGMENTER_LSTM_TAG: &'static str = "v0.1.0";
@@ -64,23 +62,21 @@ impl DatagenProvider {
     }
 
     #[cfg(test)]
+    // This is equivalent for the files defined in `tools/testdata-scripts/globs.rs.data`.
     pub fn new_testing() -> Self {
         // Singleton so that all instantiations share the same cache.
         static SINGLETON: once_cell::sync::OnceCell<DatagenProvider> =
             once_cell::sync::OnceCell::new();
         SINGLETON
             .get_or_init(|| {
-                // This is equivalent for the files defined in `tools/testdata-scripts/globs.rs.data`.
-                let data_root =
-                    std::path::Path::new(core::env!("CARGO_MANIFEST_DIR")).join("tests/data");
                 Self::new_custom()
-                    .with_cldr(data_root.join("cldr"))
+                    .with_cldr("tests/data/cldr".into())
                     .unwrap()
-                    .with_icuexport(data_root.join("icuexport"))
+                    .with_icuexport("tests/data/icuexport".into())
                     .unwrap()
-                    .with_tzif(data_root.join("tzif"))
+                    .with_tzif("tests/data/tzif".into())
                     .unwrap()
-                    .with_segmenter_lstm(data_root.join("lstm"))
+                    .with_segmenter_lstm("tests/data/lstm".into())
                     .unwrap()
             })
             .clone()
@@ -96,6 +92,7 @@ impl DatagenProvider {
             source: SourceData {
                 cldr_paths: None,
                 icuexport_paths: None,
+                #[cfg(test)]
                 tzif_paths: None,
                 segmenter_lstm_paths: None,
                 trie_type: Default::default(),
@@ -137,10 +134,11 @@ impl DatagenProvider {
     /// Adds TZif data to the provider. The root should point to a directory
     /// containing a hierarchy of TZif files, which can be generated from the
     /// [IANA Time Zone Database](https://www.iana.org/time-zones)
+    #[cfg(test)]
     pub fn with_tzif(self, _root: PathBuf) -> Result<Self, DataError> {
         Ok(Self {
             source: SourceData {
-                tzif_paths: Some(Arc::new(TzifPaths::new(_root)?)),
+                tzif_paths: Some(Arc::new(crate::transform::tzif::source::TzifPaths::new(_root)?)),
                 ..self.source
             },
         })
@@ -219,6 +217,7 @@ impl DatagenProvider {
     const MISSING_ICUEXPORT_ERROR: DataError =
         DataErrorKind::MissingSourceData.with_str_context("icuexport");
 
+    #[cfg(test)]
     const MISSING_TZIF_ERROR: DataError = DataErrorKind::MissingSourceData.with_str_context("tzif");
 
     const MISSING_SEGMENTER_LSTM_ERROR: DataError =
@@ -237,6 +236,7 @@ impl DatagenProvider {
     }
 
     /// Identifies errors that are due to missing tzif data.
+    #[cfg(test)]
     pub fn is_missing_tzif_error(mut e: DataError) -> bool {
         e.key = None;
         e == Self::MISSING_TZIF_ERROR
@@ -262,7 +262,8 @@ impl DatagenProvider {
             .ok_or(Self::MISSING_ICUEXPORT_ERROR)
     }
 
-    pub(crate) fn tzif(&self) -> Result<&TzifPaths, DataError> {
+    #[cfg(test)]
+    pub(crate) fn tzif(&self) -> Result<&crate::transform::tzif::source::TzifPaths, DataError> {
         self.source
             .tzif_paths
             .as_deref()
@@ -349,12 +350,13 @@ impl std::fmt::Display for TrieType {
 #[non_exhaustive]
 #[deprecated(since = "1.3.0", note = "use `DatagenProvider`")]
 pub struct SourceData {
-    cldr_paths: Option<Arc<CldrCache>>,
-    icuexport_paths: Option<Arc<SerdeCache>>,
-    tzif_paths: Option<Arc<TzifPaths>>,
-    segmenter_lstm_paths: Option<Arc<SerdeCache>>,
-    trie_type: TrieType,
-    collation_han_database: CollationHanDatabase,
+    pub(crate) cldr_paths: Option<Arc<CldrCache>>,
+    pub(crate) icuexport_paths: Option<Arc<SerdeCache>>,
+    #[cfg(test)] // keep as test until bakeddata is needed
+    pub(crate) tzif_paths: Option<Arc<crate::transform::tzif::source::TzifPaths>>,
+    pub(crate) segmenter_lstm_paths: Option<Arc<SerdeCache>>,
+    pub(crate) trie_type: TrieType,
+    pub(crate) collation_han_database: CollationHanDatabase,
     #[cfg(feature = "legacy_api")]
     // populated if constructed through `SourceData` constructor only
     pub(crate) icuexport_dictionary_fallback: Option<Arc<SerdeCache>>,

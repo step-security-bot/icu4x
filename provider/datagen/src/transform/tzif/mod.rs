@@ -3,7 +3,7 @@
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
 use crate::transform::cldr::cldr_serde::time_zones as cldr_time_zones;
-use crate::transform::cldr::time_zones::compute_bcp47_tzids_hashmap;
+use crate::transform::cldr::time_zones::compute_bcp47_tzids_btreemap;
 use icu_provider::datagen::IterableDataProvider;
 use icu_provider::prelude::*;
 use icu_timezone::provider::tzif::{
@@ -27,7 +27,7 @@ impl DataProvider<TimeZoneHistoricTransitionsV1Marker> for crate::DatagenProvide
             self.cldr()?.bcp47().read_and_parse("timezone.json")?;
 
         let bcp47_tzids =
-            compute_bcp47_tzids_hashmap(&bcp47_tzid_resource.keyword.u.time_zones.values);
+            compute_bcp47_tzids_btreemap(&bcp47_tzid_resource.keyword.u.time_zones.values);
 
         let tzif_data = tzif_paths.read_and_parse()?;
 
@@ -92,7 +92,7 @@ impl DataProvider<TimeZoneTransitionRulesV1Marker> for crate::DatagenProvider {
             self.cldr()?.bcp47().read_and_parse("timezone.json")?;
 
         let bcp47_tzids =
-            compute_bcp47_tzids_hashmap(&bcp47_tzid_resource.keyword.u.time_zones.values);
+            compute_bcp47_tzids_btreemap(&bcp47_tzid_resource.keyword.u.time_zones.values);
 
         let tzif_data = tzif_paths.read_and_parse()?;
 

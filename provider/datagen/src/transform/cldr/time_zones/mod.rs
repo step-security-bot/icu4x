@@ -12,19 +12,21 @@ use icu_datetime::provider::time_zones::{MetazoneId, TimeZoneBcp47Id};
 use icu_provider::datagen::IterableDataProvider;
 use icu_provider::prelude::*;
 use icu_timezone::provider::*;
-use std::collections::HashMap;
+use std::collections::BTreeMap;
 
 /// Re-export for use in TZDB provider.
-pub(crate) use convert::compute_bcp47_tzids_hashmap;
+#[cfg(test)]
+pub(crate) use convert::compute_bcp47_tzids_btreemap;
 
 mod convert;
+mod names;
 
 #[derive(Debug, Copy, Clone)]
 struct CldrTimeZonesData<'a> {
     pub time_zone_names_resource: &'a TimeZoneNames,
-    pub bcp47_tzids_resource: &'a HashMap<TimeZoneBcp47Id, Bcp47TzidAliasData>,
-    pub meta_zone_ids_resource: &'a HashMap<MetazoneId, MetazoneAliasData>,
-    pub meta_zone_periods_resource: &'a HashMap<String, ZonePeriod>,
+    pub bcp47_tzids_resource: &'a BTreeMap<TimeZoneBcp47Id, Bcp47TzidAliasData>,
+    pub meta_zone_ids_resource: &'a BTreeMap<MetazoneId, MetazoneAliasData>,
+    pub meta_zone_periods_resource: &'a BTreeMap<String, ZonePeriod>,
 }
 
 macro_rules! impl_data_provider {

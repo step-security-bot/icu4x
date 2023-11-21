@@ -333,12 +333,6 @@
     "cayyn": {
       "std_offset": 21600
     },
-    "cayzf": {
-      "std_offset": 25200,
-      "dst_offset": 21600,
-      "dst_start": 10267639415299,
-      "dst_end": 10267639415051
-    },
     "chzrh": {
       "std_offset": -3600,
       "dst_offset": -7200,

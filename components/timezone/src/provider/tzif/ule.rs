@@ -61,8 +61,7 @@ impl PartialEq for LocalTimeRecordULE {
 
 impl PartialOrd for LocalTimeRecordULE {
     fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
-        LocalTimeRecordV1::from_unaligned(*self)
-            .partial_cmp(&LocalTimeRecordV1::from_unaligned(*other))
+        Some(self.cmp(other))
     }
 }
 
@@ -159,8 +158,7 @@ impl PartialEq for TransitionDateULE {
 
 impl PartialOrd for TransitionDateULE {
     fn partial_cmp(&self, other: &Self) -> Option<core::cmp::Ordering> {
-        TransitionDateV1::from_unaligned(*self)
-            .partial_cmp(&TransitionDateV1::from_unaligned(*other))
+        Some(self.cmp(other))
     }
 }
 

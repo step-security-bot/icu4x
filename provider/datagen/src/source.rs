@@ -2,10 +2,11 @@
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
+#![allow(dead_code)]
+
 use elsa::sync::FrozenMap;
 use icu_provider::prelude::*;
 use std::any::Any;
-#[cfg(feature = "legacy_api")]
 use std::collections::BTreeMap;
 use std::collections::HashSet;
 use std::fmt::Debug;
@@ -101,7 +102,6 @@ pub(crate) struct ZipData {
 pub(crate) enum AbstractFs {
     Fs(PathBuf),
     Zip(RwLock<Result<ZipData, String>>),
-    #[cfg(feature = "legacy_api")]
     Memory(BTreeMap<&'static str, &'static [u8]>),
 }
 
@@ -200,7 +200,6 @@ impl AbstractFs {
                         .with_display_context(&e)
                         .with_display_context(path)
                 }),
-            #[cfg(feature = "legacy_api")]
             AbstractFs::Memory(map) => {
                 map.get(path)
                     .copied()
@@ -236,7 +235,6 @@ impl AbstractFs {
                         .with_display_context(&e)
                         .with_display_context(path)
                 }),
-            #[cfg(feature = "legacy_api")]
             AbstractFs::Memory(map) => Ok(map.contains_key(path)),
         }
     }
@@ -268,7 +266,6 @@ impl AbstractFs {
                     .read_to_end(&mut buf)?;
                 Ok(buf)
             }
-            #[cfg(feature = "legacy_api")]
             Self::Memory(map) => map.get(path).copied().map(Vec::from).ok_or_else(|| {
                 DataError::custom("Not found in icu4x-datagen's data/").with_display_context(path)
             }),
@@ -304,7 +301,6 @@ impl AbstractFs {
                     .read_exact(&mut buf)?;
                 Ok(buf)
             }
-            #[cfg(feature = "legacy_api")]
             Self::Memory(map) => map
                 .get(path)
                 .copied()
@@ -377,7 +373,6 @@ impl AbstractFs {
                 .map(ToOwned::to_owned)
                 .collect::<HashSet<_>>()
                 .into_iter(),
-            #[cfg(feature = "legacy_api")]
             Self::Memory(map) => map
                 .keys()
                 .filter_map(|p| p.strip_prefix(path))
@@ -406,7 +401,6 @@ impl AbstractFs {
                 .unwrap() // init called
                 .file_list
                 .contains(path),
-            #[cfg(feature = "legacy_api")]
             Self::Memory(map) => map.contains_key(path),
         })
     }

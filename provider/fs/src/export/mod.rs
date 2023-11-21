@@ -2,9 +2,11 @@
 // called LICENSE at the top level of the ICU4X source tree
 // (online at: https://github.com/unicode-org/icu4x/blob/main/LICENSE ).
 
-//! Data exporter for [`FsDataProvider`](crate::FsDataProvider).
+//! Data exporter that creates a file system structure for use with [`FsDataProvider`](crate::FsDataProvider).
 //!
 //! This module can be used as a target for the `icu_datagen` crate.
+//!
+//! See our [datagen tutorial](https://github.com/unicode-org/icu4x/blob/main/docs/tutorials/data_management.md) for more information about different data providers.
 //!
 //! # Examples
 //!
@@ -40,13 +42,17 @@
 //! use icu_provider::prelude::*;
 //! use icu_provider_fs::FsDataProvider;
 //!
-//! # let demo_path = std::path::Path::new(concat!(env!("CARGO_MANIFEST_DIR"), "/tests/data/json"));
+//! # let demo_path = "tests/data/json";
 //! // Create a filesystem provider reading from the demo directory
 //! let provider = FsDataProvider::try_new(&demo_path)
 //!     .expect("Should successfully read from filesystem");
 //!
 //! // Use the provider as a `BufferProvider`
-//! let formatter = HelloWorldFormatter::try_new_with_buffer_provider(&provider, &langid!("en").into()).unwrap();
+//! let formatter = HelloWorldFormatter::try_new_with_buffer_provider(
+//!     &provider,
+//!     &langid!("en").into(),
+//! )
+//! .unwrap();
 //!
 //! assert_eq!(formatter.format_to_string(), "Hello World");
 //! ```
@@ -61,6 +67,4 @@
 mod fs_exporter;
 pub mod serializers;
 
-pub use fs_exporter::ExporterOptions;
-pub use fs_exporter::FilesystemExporter;
-pub use fs_exporter::OverwriteOption;
+pub use fs_exporter::*;

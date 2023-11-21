@@ -5,6 +5,7 @@
 pub mod cldr;
 pub mod icuexport;
 pub mod segmenter;
+#[cfg(test)] // keep as test until bakeddata is needed
 pub mod tzif;
 
 use crate::DatagenProvider;

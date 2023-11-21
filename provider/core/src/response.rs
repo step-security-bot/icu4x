@@ -390,7 +390,9 @@ where
             DataPayloadInner::StaticRef(r) => {
                 let output: <M2::Yokeable as Yokeable<'static>>::Output =
                     f(Yokeable::transform(*r), PhantomData);
-                // Safety: <M2::Yokeable as Yokeable<'static>>::Output is the same type as M2::Yokeable
+                // Safety: <M2::Yokeable as Yokeable<'static>>::Output is the same type as M2::Yokeable;
+                // we're going from 'static to 'static, however in a generic context it's not
+                // clear to the compiler that that is the case. We have to use the unsafe make API to do this.
                 let yokeable: M2::Yokeable = unsafe { M2::Yokeable::make(output) };
                 Yoke::new_owned(yokeable)
             }
@@ -561,12 +563,12 @@ where
     /// Change the results of a particular request based on key:
     ///
     /// ```
-    /// use icu_provider::prelude::*;
-    /// use icu_provider::hello_world::*;
     /// use icu_locid::locale;
+    /// use icu_provider::hello_world::*;
+    /// use icu_provider::prelude::*;
     ///
     /// struct MyWrapper<P> {
-    ///     inner: P
+    ///     inner: P,
     /// }
     ///
     /// impl<M, P> DataProvider<M> for MyWrapper<P>
@@ -578,7 +580,8 @@ where
     ///     fn load(&self, req: DataRequest) -> Result<DataResponse<M>, DataError> {
     ///         let mut res = self.inner.load(req)?;
     ///         if let Some(ref mut generic_payload) = res.payload {
-    ///             let mut cast_result = generic_payload.dynamic_cast_mut::<HelloWorldV1Marker>();
+    ///             let mut cast_result =
+    ///                 generic_payload.dynamic_cast_mut::<HelloWorldV1Marker>();
     ///             if let Ok(ref mut concrete_payload) = cast_result {
     ///                 // Add an emoji to the hello world message
     ///                 concrete_payload.with_mut(|data| {
@@ -591,13 +594,11 @@ where
     /// }
     ///
     /// let provider = MyWrapper {
-    ///     inner: HelloWorldProvider
+    ///     inner: HelloWorldProvider,
     /// };
-    /// let formatter = HelloWorldFormatter::try_new_unstable(
-    ///     &provider,
-    ///     &locale!("de").into()
-    /// )
-    /// .unwrap();
+    /// let formatter =
+    ///     HelloWorldFormatter::try_new_unstable(&provider, &locale!("de").into())
+    ///         .unwrap();
     ///
     /// assert_eq!(formatter.format_to_string(), "✨ Hallo Welt");
     /// ```
