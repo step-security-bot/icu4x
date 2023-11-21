@@ -159,11 +159,13 @@ pub const EXTRA_DATAGEN_DEPS: &[&str] = &[
     "rawpointer",
     "regex-syntax",
     "ryu",
+    "same-file",
     "serde-aux",
     "serde_json",
     "static_assertions",
     "toml",
     "twox-hash",
+    "walkdir",
 ];
 
 /// Dependencies needed by the `log` crate
