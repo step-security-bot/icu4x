@@ -37,10 +37,31 @@ where
     fn load(&self, req: DataRequest) -> Result<DataResponse<M>, DataError>;
 }
 
-impl<M, P> DynamicDataProvider<M> for alloc::boxed::Box<P>
-where
-    M: DataMarker,
-    P: DynamicDataProvider<M> + ?Sized,
+impl<'a, M: DataMarker, P: DynamicDataProvider<M> + ?Sized> DynamicDataProvider<M> for &'a P {
+    fn load_data(&self, key: DataKey, req: DataRequest) -> Result<DataResponse<M>, DataError> {
+        (**self).load_data(key, req)
+    }
+}
+
+impl<M: DataMarker, P: DynamicDataProvider<M> + ?Sized> DynamicDataProvider<M>
+    for alloc::boxed::Box<P>
+{
+    fn load_data(&self, key: DataKey, req: DataRequest) -> Result<DataResponse<M>, DataError> {
+        (**self).load_data(key, req)
+    }
+}
+
+impl<M: DataMarker, P: DynamicDataProvider<M> + ?Sized> DynamicDataProvider<M>
+    for alloc::rc::Rc<P>
+{
+    fn load_data(&self, key: DataKey, req: DataRequest) -> Result<DataResponse<M>, DataError> {
+        (**self).load_data(key, req)
+    }
+}
+
+#[cfg(target_has_atomic = "ptr")]
+impl<M: DataMarker, P: DynamicDataProvider<M> + ?Sized> DynamicDataProvider<M>
+    for alloc::sync::Arc<P>
 {
     fn load_data(&self, key: DataKey, req: DataRequest) -> Result<DataResponse<M>, DataError> {
         (**self).load_data(key, req)

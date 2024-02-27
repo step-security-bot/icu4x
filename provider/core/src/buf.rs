@@ -84,55 +84,18 @@ impl DataMarker for BufferMarker {
 /// ```
 ///
 /// [`as_deserializing()`]: AsDeserializingBufferProvider::as_deserializing
-pub trait BufferProvider {
+pub trait BufferProvider: DynamicDataProvider<BufferMarker> {
     /// Loads a [`DataPayload`]`<`[`BufferMarker`]`>` according to the key and request.
     fn load_buffer(
         &self,
         key: DataKey,
         req: DataRequest,
-    ) -> Result<DataResponse<BufferMarker>, DataError>;
-}
-
-impl<'a, T: BufferProvider + ?Sized> BufferProvider for &'a T {
-    fn load_buffer(
-        &self,
-        key: DataKey,
-        req: DataRequest,
     ) -> Result<DataResponse<BufferMarker>, DataError> {
-        (**self).load_buffer(key, req)
+        self.load_data(key, req)
     }
 }
 
-impl<T: BufferProvider + ?Sized> BufferProvider for alloc::boxed::Box<T> {
-    fn load_buffer(
-        &self,
-        key: DataKey,
-        req: DataRequest,
-    ) -> Result<DataResponse<BufferMarker>, DataError> {
-        (**self).load_buffer(key, req)
-    }
-}
-
-impl<T: BufferProvider + ?Sized> BufferProvider for alloc::rc::Rc<T> {
-    fn load_buffer(
-        &self,
-        key: DataKey,
-        req: DataRequest,
-    ) -> Result<DataResponse<BufferMarker>, DataError> {
-        (**self).load_buffer(key, req)
-    }
-}
-
-#[cfg(target_has_atomic = "ptr")]
-impl<T: BufferProvider + ?Sized> BufferProvider for alloc::sync::Arc<T> {
-    fn load_buffer(
-        &self,
-        key: DataKey,
-        req: DataRequest,
-    ) -> Result<DataResponse<BufferMarker>, DataError> {
-        (**self).load_buffer(key, req)
-    }
-}
+impl<P: DynamicDataProvider<BufferMarker> + ?Sized> BufferProvider for P {}
 
 /// An enum expressing all Serde formats known to ICU4X.
 #[derive(Debug, PartialEq, Eq, Hash, Copy, Clone)]

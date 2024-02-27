@@ -192,8 +192,8 @@ icu_provider::impl_dynamic_data_provider!(HelloWorldProvider, [HelloWorldV1Marke
 pub struct HelloWorldJsonProvider;
 
 #[cfg(feature = "deserialize_json")]
-impl BufferProvider for HelloWorldJsonProvider {
-    fn load_buffer(
+impl DynamicDataProvider<BufferMarker> for HelloWorldJsonProvider {
+    fn load_data(
         &self,
         key: DataKey,
         req: DataRequest,

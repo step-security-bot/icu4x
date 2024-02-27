@@ -113,8 +113,8 @@ impl BlobDataProvider {
     }
 }
 
-impl BufferProvider for BlobDataProvider {
-    fn load_buffer(
+impl DynamicDataProvider<BufferMarker> for BlobDataProvider {
+    fn load_data(
         &self,
         key: DataKey,
         req: DataRequest,
