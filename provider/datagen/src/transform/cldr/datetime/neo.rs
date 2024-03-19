@@ -21,7 +21,7 @@ use icu_provider::prelude::*;
 use std::borrow::Cow;
 use std::collections::{BTreeMap, HashSet};
 use tinystr::TinyAsciiStr;
-use zerovec::ule::UnvalidatedStr;
+use unvalidated::UnvalidatedStr;
 
 /// Most keys don't have short symbols (except weekdays)
 ///

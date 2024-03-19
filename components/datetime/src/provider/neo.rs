@@ -7,7 +7,7 @@ mod adapter;
 use crate::pattern::runtime;
 use alloc::borrow::Cow;
 use icu_provider::prelude::*;
-use zerovec::ule::UnvalidatedStr;
+use unvalidated::UnvalidatedStr;
 use zerovec::{VarZeroVec, ZeroMap};
 
 #[cfg(feature = "experimental")]

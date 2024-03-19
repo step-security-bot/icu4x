@@ -32,6 +32,7 @@ tinystr = { workspace = true, features = ["alloc", "zerovec"] }
 zerovec = { workspace = true,  features = ["yoke"] }
 databake = { workspace = true, optional = true, features = ["derive"] }
 displaydoc = { version = "0.2.3", default-features = false }
+unvalidated = { workspace = true }
 
 icu_locid_transform_data = { workspace = true, optional = true }
 

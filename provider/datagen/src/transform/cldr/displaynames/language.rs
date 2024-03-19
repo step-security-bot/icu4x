@@ -9,7 +9,7 @@ use icu_experimental::displaynames::provider::*;
 use icu_locid::subtags::Language;
 use icu_provider::prelude::*;
 use std::collections::{BTreeMap, HashSet};
-use zerovec::ule::UnvalidatedStr;
+use unvalidated::UnvalidatedStr;
 
 impl DataProvider<LanguageDisplayNamesV1Marker> for crate::DatagenProvider {
     fn load(

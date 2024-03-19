@@ -68,6 +68,7 @@ members = [
     "utils/resb",
     "utils/tinystr",
     "utils/tzif",
+    "utils/unvalidated",
     "utils/writeable",
     "utils/yoke",
     "utils/yoke/derive",
@@ -87,7 +88,7 @@ members = [
     "tools/ffi_coverage",
     "tools/testdata-scripts",
     "tools/md-tests",
-    "ffi/dart/tools/datagen",
+    "ffi/dart/tools/datagen", 
 ]
 # Note: Workspaces in subdirectories, such as tutorials/crates, are
 # implicitly excluded from the main workspace.
@@ -185,6 +186,7 @@ ixdtf = { version = "0.1.1", path = "utils/ixdtf", default-features = false }
 litemap = { version = "0.7.2", path = "utils/litemap", default-features = false }
 tinystr = { version = "0.7.4", path = "utils/tinystr", default-features = false }
 tzif = { version = "0.0.0", path = "utils/tzif", default-features = false }
+unvalidated = { version = "0.0.0", path = "utils/unvalidated/", default-features = false }
 writeable = { version = "0.5.4", path = "utils/writeable/", default-features = false }
 yoke = { version = "0.7.3", path = "utils/yoke", default-features = false }
 yoke-derive = { version = "0.7.3", path = "utils/yoke/derive", default-features = false }

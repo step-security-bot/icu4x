@@ -7,7 +7,7 @@
 #[cfg(feature = "datagen")]
 use alloc::string::String;
 use icu_provider::prelude::*;
-use zerovec::ule::UnvalidatedStr;
+use unvalidated::UnvalidatedStr;
 use zerovec::ZeroMap;
 
 /// Reverse case folding data. Maps from multi-character strings back

@@ -20,7 +20,8 @@ use core::str;
 use icu_provider::prelude::*;
 
 use tinystr::TinyStr4;
-use zerovec::ule::{UnvalidatedStr, VarULE};
+use unvalidated::UnvalidatedStr;
+use zerovec::ule::VarULE;
 use zerovec::{maps::ZeroMapKV, VarZeroSlice, VarZeroVec, ZeroMap, ZeroVec};
 
 /// This is a property name that can be "loose matched" as according to

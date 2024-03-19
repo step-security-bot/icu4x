@@ -9,7 +9,8 @@ use alloc::borrow::Cow;
 use icu_calendar::types::MonthCode;
 use icu_provider::prelude::*;
 use tinystr::{tinystr, TinyStr4};
-use zerovec::{ule::UnvalidatedStr, ZeroMap};
+use unvalidated::UnvalidatedStr;
+use zerovec::ZeroMap;
 
 size_test!(DateSymbolsV1, date_symbols_v1_size, 3792);
 

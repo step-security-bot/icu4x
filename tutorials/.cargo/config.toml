@@ -68,6 +68,7 @@ ixdtf = { path = "../utils/ixdtf" }
 litemap = { path = "../utils/litemap" }
 tinystr = { path = "../utils/tinystr" }
 tzif = { path = "../utils/tzif" }
+unvalidated = { path = "utils/unvalidated/" }
 writeable = { path = "../utils/writeable/" }
 yoke = { path = "../utils/yoke" }
 yoke-derive = { path = "../utils/yoke/derive" }

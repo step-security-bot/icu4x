@@ -6,7 +6,8 @@ use crate::grapheme::GraphemeClusterSegmenter;
 use crate::provider::*;
 use alloc::vec::Vec;
 use core::char::{decode_utf16, REPLACEMENT_CHARACTER};
-use zerovec::{maps::ZeroMapBorrowed, ule::UnvalidatedStr};
+use unvalidated::UnvalidatedStr;
+use zerovec::maps::ZeroMapBorrowed;
 
 mod matrix;
 use matrix::*;

@@ -8,7 +8,8 @@
 #![allow(clippy::exhaustive_structs, clippy::exhaustive_enums)]
 
 use icu_provider::prelude::*;
-use zerovec::{ule::UnvalidatedStr, ZeroMap, ZeroVec};
+use unvalidated::UnvalidatedStr;
+use zerovec::{ZeroMap, ZeroVec};
 
 // We do this instead of const generics because ZeroFrom and Yokeable derives, as well as serde
 // don't support them

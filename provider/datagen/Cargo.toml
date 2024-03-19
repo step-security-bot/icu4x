@@ -59,6 +59,7 @@ icu_locid = { workspace = true, features = ["std", "serde"] }
 icu_provider = { workspace = true, features = ["std", "logging", "datagen", "experimental"]}
 icu_provider_adapters = { workspace = true }
 tinystr = { workspace = true, features = ["alloc", "serde", "zerovec"] }
+unvalidated = { workspace = true }
 writeable = { workspace = true }
 zerotrie = { workspace = true, features = ["alloc"] }
 zerovec = { workspace = true, features = ["serde", "yoke"] }

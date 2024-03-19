@@ -38,6 +38,7 @@ fixed_decimal = { workspace = true }
 icu_pattern = { workspace = true , features = ["yoke", "zerofrom"]}
 litemap = { workspace = true }
 tinystr = { workspace = true, features = ["alloc", "zerovec"] }
+unvalidated = { workspace = true }
 writeable = { workspace = true }
 zerotrie = { workspace = true, features = ["yoke", "zerofrom"] }
 zerovec = { workspace = true, features = ["derive", "yoke"] }

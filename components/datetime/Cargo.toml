@@ -33,6 +33,7 @@ smallvec = "1.6"
 tinystr = { workspace = true, features = ["alloc", "zerovec"] }
 writeable = { workspace = true }
 zerovec = { workspace = true, features = ["yoke"] }
+unvalidated = { workspace = true }
 
 serde = { version = "1.0", default-features = false, features = ["derive", "alloc"], optional = true }
 databake = { workspace = true, features = ["derive"], optional = true}

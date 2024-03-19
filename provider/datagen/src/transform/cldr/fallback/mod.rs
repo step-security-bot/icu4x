@@ -15,8 +15,9 @@ use icu_locid_transform::provider::*;
 use icu_provider::datagen::IterableDataProvider;
 use icu_provider::prelude::*;
 use std::collections::BTreeMap;
+use unvalidated::UnvalidatedStr;
 use writeable::Writeable;
-use zerovec::{maps::ZeroMap2d, ule::UnvalidatedStr};
+use zerovec::maps::ZeroMap2d;
 
 impl DataProvider<LocaleFallbackLikelySubtagsV1Marker> for crate::DatagenProvider {
     fn load(

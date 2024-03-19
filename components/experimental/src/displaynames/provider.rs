@@ -11,7 +11,7 @@
 
 use icu_provider::prelude::*;
 use tinystr::UnvalidatedTinyAsciiStr;
-use zerovec::ule::UnvalidatedStr;
+use unvalidated::UnvalidatedStr;
 use zerovec::ZeroMap;
 
 // We use raw TinyAsciiStrs for map keys, as we then don't have to

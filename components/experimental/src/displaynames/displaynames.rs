@@ -13,7 +13,7 @@ use icu_locid::{
     Locale,
 };
 use icu_provider::prelude::*;
-use zerovec::ule::UnvalidatedStr;
+use unvalidated::UnvalidatedStr;
 
 /// Lookup of the locale-specific display names by region code.
 ///

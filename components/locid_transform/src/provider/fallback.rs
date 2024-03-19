@@ -6,7 +6,7 @@ use super::*;
 use icu_locid::extensions::unicode::Key;
 use icu_locid::subtags::{region, script, Language, Region, Script};
 use icu_provider::prelude::*;
-use zerovec::ule::UnvalidatedStr;
+use unvalidated::UnvalidatedStr;
 use zerovec::ZeroMap;
 use zerovec::ZeroMap2d;
 

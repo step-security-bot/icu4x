@@ -27,6 +27,7 @@ zerovec = { workspace = true, features = ["derive"] }
 databake = { workspace = true, features = ["derive"], optional = true}
 serde = { version = "1.0", default-features = false, features = ["derive", "alloc"], optional = true }
 tinystr = { workspace = true, features = ["alloc", "zerovec"] }
+unvalidated = { workspace = true }
 
 unicode-bidi = { version = "0.3.13", default-features = false, optional = true }
 
@@ -39,7 +40,7 @@ icu = { path = "../../components/icu", default-features = false }
 [features]
 default = ["compiled_data"]
 std = ["icu_collections/std", "icu_provider/std"]
-serde = ["dep:serde", "tinystr/serde", "zerovec/serde", "icu_collections/serde", "icu_provider/serde"]
-datagen = ["serde", "dep:databake", "zerovec/databake", "icu_collections/databake", "tinystr/databake"]
+serde = ["dep:serde", "tinystr/serde", "unvalidated/serde", "zerovec/serde", "icu_collections/serde", "icu_provider/serde"]
+datagen = ["serde", "dep:databake", "unvalidated/databake", "zerovec/databake", "icu_collections/databake", "tinystr/databake"]
 bidi = [ "dep:unicode-bidi" ]
 compiled_data = ["dep:icu_properties_data", "dep:icu_locid_transform"]

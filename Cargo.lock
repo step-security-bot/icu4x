@@ -1222,6 +1222,7 @@ dependencies = [
  "icu_properties",
  "icu_provider",
  "serde",
+ "unvalidated",
  "writeable",
  "zerovec",
 ]
@@ -1340,6 +1341,7 @@ dependencies = [
  "tinystr",
  "toml",
  "twox-hash",
+ "unvalidated",
  "ureq",
  "writeable",
  "zerotrie",
@@ -1400,6 +1402,7 @@ dependencies = [
  "serde_json",
  "smallvec",
  "tinystr",
+ "unvalidated",
  "writeable",
  "zerovec",
 ]
@@ -1465,6 +1468,7 @@ dependencies = [
  "serde",
  "smallvec",
  "tinystr",
+ "unvalidated",
  "writeable",
  "zerotrie",
  "zerovec",
@@ -1565,6 +1569,7 @@ dependencies = [
  "serde",
  "serde_json",
  "tinystr",
+ "unvalidated",
  "writeable",
  "zerovec",
 ]
@@ -1652,6 +1657,7 @@ dependencies = [
  "serde",
  "tinystr",
  "unicode-bidi",
+ "unvalidated",
  "zerovec",
 ]
 
@@ -1764,6 +1770,7 @@ dependencies = [
  "itertools",
  "serde",
  "serde_json",
+ "unvalidated",
  "utf8_iter",
  "zerovec",
 ]
@@ -3063,6 +3070,17 @@ name = "untrusted"
 version = "0.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a156c684c91ea7d62626509bce3cb4e1d9ed5c4d978f7b4352658f96a4c26b4a"
+
+[[package]]
+name = "unvalidated"
+version = "0.0.0"
+dependencies = [
+ "bincode",
+ "databake",
+ "serde",
+ "serde_json",
+ "zerovec",
+]
 
 [[package]]
 name = "ureq"
