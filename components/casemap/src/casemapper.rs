@@ -9,7 +9,6 @@ use crate::provider::CaseMapV1Marker;
 use crate::set::ClosureSink;
 use crate::titlecase::{LeadingAdjustment, TitlecaseOptions, TrailingCase};
 use alloc::string::String;
-use icu_locid::LanguageIdentifier;
 use icu_provider::prelude::*;
 use writeable::Writeable;
 
@@ -19,6 +18,8 @@ use writeable::Writeable;
 /// # Examples
 ///
 /// ```rust
+/// use icu::casemap::CaseMapper;
+/// use icu::locid::langid;
 /// use icu::casemap::CaseMapper;
 /// use icu::locid::langid;
 ///
@@ -597,7 +598,6 @@ impl CaseMapper {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use icu_locid::langid;
 
     #[test]
     /// Tests for SpecialCasing.txt. Some of the special cases are data-driven, some are code-driven

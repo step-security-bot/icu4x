@@ -9,7 +9,6 @@ use crate::options::length;
 use crate::pattern::runtime::{PatternBorrowed, PatternMetadata};
 use crate::pattern::{runtime, PatternItem};
 use crate::provider::neo::*;
-use icu_locid::extensions::private::Subtag;
 use icu_provider::prelude::*;
 use zerovec::ule::AsULE;
 use zerovec::ZeroSlice;
@@ -110,7 +109,7 @@ impl DatePatternSelectionData {
             unreachable!()
         };
         let mut locale = locale.clone();
-        let subtag = match Subtag::try_from_raw(*components.id_str().all_bytes()) {
+        let subtag = match AuxiliaryKey::try_from_raw(*components.id_str().all_bytes()) {
             Ok(subtag) => subtag,
             Err(e) => {
                 debug_assert!(
@@ -219,7 +218,7 @@ impl TimePatternSelectionData {
             unreachable!()
         };
         let mut locale = locale.clone();
-        let subtag = match Subtag::try_from_raw(*components.id_str().all_bytes()) {
+        let subtag = match AuxiliaryKey::try_from_raw(*components.id_str().all_bytes()) {
             Ok(subtag) => subtag,
             Err(e) => {
                 debug_assert!(

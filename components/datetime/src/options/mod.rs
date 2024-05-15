@@ -9,8 +9,8 @@
 //! the date, with an optional `Preferences` which represent user preferences and
 //! may alter how the selected pattern is formatted.
 //!
-//! [`Locale`]: icu_locid::Locale
-//! [`TypedDateTimeFormatter`]: crate::TypedDateTimeFormatter
+//! [`Locale`]: icu::locid::Locale
+//! [`TypedDateTimeFormatter`]: icu::datetime::TypedDateTimeFormatter
 //!
 //! # Examples
 //!
@@ -35,8 +35,8 @@ pub mod preferences;
 #[cfg(not(any(feature = "datagen", feature = "experimental")))]
 pub(crate) mod preferences;
 
-/// A bag of options which, together with [`Locale`](icu_locid::Locale), defines how
-/// dates will be formatted with a [`TypedDateTimeFormatter`](crate::TypedDateTimeFormatter) instance.
+/// A bag of options which, together with [`Locale`](icu::locid::Locale), defines how
+/// dates will be formatted with a [`TypedDateTimeFormatter`](icu::datetime::TypedDateTimeFormatter) instance.
 ///
 /// Each variant of the bag is a combination of settings defining how to format
 /// the date, with an optional `Preferences` which represent user preferences and

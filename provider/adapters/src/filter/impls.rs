@@ -6,8 +6,6 @@ use super::*;
 use alloc::boxed::Box;
 use icu_provider::prelude::*;
 
-use icu_locid::LanguageIdentifier;
-
 type RequestFilterDataProviderOutput<'a, D> =
     RequestFilterDataProvider<D, Box<dyn Fn(DataRequest) -> bool + Sync + 'a>>;
 

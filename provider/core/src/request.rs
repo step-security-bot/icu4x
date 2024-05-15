@@ -1016,40 +1016,39 @@ fn test_data_locale_to_string() {
     use icu_locid::locale;
 
     struct TestCase {
-        pub locale: Locale,
+        pub locale: DataLocale,
         pub aux: Option<&'static str>,
         pub expected: &'static str,
     }
 
-    for cas in [
+    for mut cas in [
         TestCase {
-            locale: Locale::UND,
+            locale: Default::default(),
             aux: None,
             expected: "und",
         },
         TestCase {
-            locale: locale!("und-u-cu-gbp"),
+            locale: locale!("und-u-cu-gbp").into(),
             aux: None,
             expected: "und-u-cu-gbp",
         },
         TestCase {
-            locale: locale!("en-ZA-u-cu-gbp"),
+            locale: locale!("en-ZA-u-cu-gbp").into(),
             aux: None,
             expected: "en-ZA-u-cu-gbp",
         },
         #[cfg(feature = "experimental")]
         TestCase {
-            locale: locale!("en-ZA-u-nu-arab"),
+            locale: locale!("en-ZA-u-nu-arab").into(),
             aux: Some("gbp"),
             expected: "en-ZA-u-nu-arab-x-gbp",
         },
     ] {
-        let mut data_locale = DataLocale::from(cas.locale);
         #[cfg(feature = "experimental")]
         if let Some(aux) = cas.aux {
-            data_locale.set_aux(aux.parse().unwrap());
+            cas.locale.set_aux(aux.parse().unwrap());
         }
-        writeable::assert_writeable_eq!(data_locale, cas.expected);
+        writeable::assert_writeable_eq!(cas.locale, cas.expected);
     }
 }
 

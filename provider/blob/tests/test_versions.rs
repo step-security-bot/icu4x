@@ -111,11 +111,10 @@ fn test_v2_bigger() {
         "tyz-Latn-001",
         "uaf-Latn-001",
     ] {
-        let locale = Locale::try_from_bytes(loc.as_bytes()).expect("locale must parse");
         let blob_result = DataProvider::<HelloWorldV1Marker>::load(
             &blob_provider,
             DataRequest {
-                locale: &locale.into(),
+                locale: &loc.parse().expect("locale must parse"),
                 metadata: Default::default(),
             },
         )

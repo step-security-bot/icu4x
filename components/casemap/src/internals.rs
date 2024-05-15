@@ -16,7 +16,7 @@ use crate::provider::{CaseMapUnfoldV1, CaseMapV1};
 use crate::set::ClosureSink;
 use crate::titlecase::TrailingCase;
 use core::fmt;
-use icu_locid::LanguageIdentifier;
+use icu_provider::prelude::*;
 use writeable::Writeable;
 
 const ACUTE: char = '\u{301}';

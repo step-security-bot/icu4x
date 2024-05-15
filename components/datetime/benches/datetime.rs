@@ -7,13 +7,12 @@ mod fixtures;
 use criterion::{criterion_group, criterion_main, Criterion};
 use std::fmt::Write;
 
-use icu_calendar::{DateTime, Gregorian};
+use icu::calendar::{DateTime, Gregorian};
 #[cfg(feature = "experimental")]
-use icu_datetime::neo::TypedNeoDateTimeFormatter;
-use icu_datetime::TypedDateTimeFormatter;
-use icu_datetime::{time_zone::TimeZoneFormatterOptions, TypedZonedDateTimeFormatter};
-use icu_locid::Locale;
-use icu_timezone::CustomTimeZone;
+use icu::datetime::neo::TypedNeoDateTimeFormatter;
+use icu::datetime::TypedDateTimeFormatter;
+use icu::datetime::{time_zone::TimeZoneFormatterOptions, TypedZonedDateTimeFormatter};
+use icu::timezone::CustomTimeZone;
 use writeable::TryWriteable;
 
 #[path = "../tests/mock.rs"]
@@ -35,13 +34,11 @@ fn datetime_benches(c: &mut Criterion) {
                         })
                         .collect();
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().expect("Failed to parse locale.");
                         let options = fixtures::get_options(&setup.options).unwrap();
                         #[cfg(feature = "experimental")]
                         let dtf = {
                             TypedDateTimeFormatter::<Gregorian>::try_new_experimental(
-                                &locale.into(),
-                                options,
+                                &setup.locale.parse().expect("Failed to parse locale."), options,
                             )
                             .expect("Failed to create TypedDateTimeFormatter.")
                         };
@@ -83,10 +80,9 @@ fn datetime_benches(c: &mut Criterion) {
                         })
                         .collect();
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().expect("Failed to parse locale.");
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf = {
-                            TypedNeoDateTimeFormatter::<Gregorian>::try_new(&locale.into(), options)
+                            TypedNeoDateTimeFormatter::<Gregorian>::try_new(&setup.locale.parse().expect("Failed to parse locale."), options)
                                 .expect("Failed to create TypedNeoDateTimeFormatter.")
                         };
 
@@ -121,10 +117,9 @@ fn datetime_benches(c: &mut Criterion) {
                     .map(|value| mock::parse_zoned_gregorian_from_str(value).unwrap())
                     .collect();
                 for setup in &fx.setups {
-                    let locale: Locale = setup.locale.parse().unwrap();
                     let options = fixtures::get_options(&setup.options).unwrap();
                     let dtf = TypedZonedDateTimeFormatter::<Gregorian>::try_new(
-                        &locale.into(),
+                        &setup.locale.parse().unwrap(),
                         options,
                         TimeZoneFormatterOptions::default(),
                     )
@@ -163,10 +158,10 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
+                        let locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf =
-                            TypedDateTimeFormatter::<Gregorian>::try_new(&locale.into(), options)
+                            TypedDateTimeFormatter::<Gregorian>::try_new(&locale, options)
                                 .unwrap();
 
                         let mut scratch = String::new();
@@ -190,10 +185,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf =
-                            TypedDateTimeFormatter::<Gregorian>::try_new(&locale.into(), options)
+                            TypedDateTimeFormatter::<Gregorian>::try_new(&setup.locale.parse().unwrap(), options)
                                 .unwrap();
 
                         for dt in &datetimes {
@@ -214,10 +208,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf =
-                            TypedDateTimeFormatter::<Gregorian>::try_new(&locale.into(), options)
+                            TypedDateTimeFormatter::<Gregorian>::try_new(&setup.locale.parse().unwrap(), options)
                                 .unwrap();
 
                         let mut result = String::new();
@@ -242,10 +235,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf =
-                            TypedDateTimeFormatter::<Gregorian>::try_new(&locale.into(), options)
+                            TypedDateTimeFormatter::<Gregorian>::try_new(&setup.locale.parse().unwrap(), options)
                                 .unwrap();
 
                         for dt in &datetimes {
@@ -267,10 +259,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf =
-                            TypedDateTimeFormatter::<Gregorian>::try_new(&locale.into(), options)
+                            TypedDateTimeFormatter::<Gregorian>::try_new(&setup.locale.parse().unwrap(), options)
                                 .unwrap();
 
                         for dt in &datetimes {
@@ -296,10 +287,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf = TypedZonedDateTimeFormatter::<Gregorian>::try_new(
-                            &locale.into(),
+                            &setup.locale.parse().unwrap(),
                             options,
                             TimeZoneFormatterOptions::default(),
                         )
@@ -326,10 +316,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf = TypedZonedDateTimeFormatter::<Gregorian>::try_new(
-                            &locale.into(),
+                            &setup.locale.parse().unwrap(),
                             options,
                             TimeZoneFormatterOptions::default(),
                         )
@@ -353,10 +342,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf = TypedZonedDateTimeFormatter::<Gregorian>::try_new(
-                            &locale.into(),
+                            &setup.locale.parse().unwrap(),
                             options,
                             TimeZoneFormatterOptions::default(),
                         )
@@ -384,10 +372,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf = TypedZonedDateTimeFormatter::<Gregorian>::try_new(
-                            &locale.into(),
+                            &setup.locale.parse().unwrap(),
                             options,
                             TimeZoneFormatterOptions::default(),
                         )
@@ -412,10 +399,9 @@ fn datetime_benches(c: &mut Criterion) {
                         .collect();
 
                     for setup in &fx.setups {
-                        let locale: Locale = setup.locale.parse().unwrap();
                         let options = fixtures::get_options(&setup.options).unwrap();
                         let dtf = TypedZonedDateTimeFormatter::<Gregorian>::try_new(
-                            &locale.into(),
+                            &setup.locale.parse().unwrap(),
                             options,
                             TimeZoneFormatterOptions::default(),
                         )
