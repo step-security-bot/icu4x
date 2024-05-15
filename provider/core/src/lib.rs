@@ -249,7 +249,6 @@ pub mod prelude {
     #[doc(no_inline)]
     pub use crate::KeyedDataMarker;
     #[doc(no_inline)]
-    pub use icu_locid::extensions::private::{subtag as aux_key, Subtag as AuxiliaryKey};
     #[doc(no_inline)]
     pub use icu_locid::extensions::unicode::{
         key as unicode_extension_key, Key as UnicodeExtensionKey,
@@ -260,6 +259,9 @@ pub mod prelude {
     };
     #[doc(no_inline)]
     pub use icu_locid::{langid, LanguageIdentifier};
+
+    #[cfg(feature = "experimental")]
+    pub use icu_locid::extensions::private::{subtag as aux_key, Subtag as AuxiliaryKey};
 
     #[doc(hidden)]
     pub use icu_locid;

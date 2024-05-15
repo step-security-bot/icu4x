@@ -90,21 +90,9 @@ pub fn collator_with_locale(criterion: &mut Criterion) {
         Strength::Identical,
     ];
     let performance_parameters = [
-        (
-            "en_US",
-            vec![&content_latin],
-            &all_strength,
-        ),
-        (
-            "da_DK",
-            vec![&content_latin],
-            &all_strength,
-        ),
-        (
-            "fr_CA",
-            vec![&content_latin],
-            &all_strength,
-        ),
+        ("en_US", vec![&content_latin], &all_strength),
+        ("da_DK", vec![&content_latin], &all_strength),
+        ("fr_CA", vec![&content_latin], &all_strength),
         (
             "ja_JP",
             vec![&content_latin, &content_jp_h, &content_jp_k, &content_asian],
@@ -125,11 +113,7 @@ pub fn collator_with_locale(criterion: &mut Criterion) {
             vec![&content_latin, &content_russian],
             &all_strength,
         ),
-        (
-            "th",
-            vec![&content_latin, &content_thai],
-            &all_strength,
-        ),
+        ("th", vec![&content_latin, &content_thai], &all_strength),
         (
             "ko_KR",
             vec![&content_latin, &content_korean],
@@ -159,7 +143,8 @@ pub fn collator_with_locale(criterion: &mut Criterion) {
             for (index, strength) in benched_strength.iter().enumerate() {
                 let mut options = CollatorOptions::new();
                 options.strength = Some(*strength);
-                let collator = Collator::try_new(&locale_under_bench.parse().unwrap(), options).unwrap();
+                let collator =
+                    Collator::try_new(&locale_under_bench.parse().unwrap(), options).unwrap();
                 // ICU4X collator performance, sort is locale-aware
                 group.bench_function(
                     BenchmarkId::new(

@@ -19,10 +19,10 @@ mod symbols;
 pub(in crate::provider) mod week_data;
 
 pub(in crate::provider) static SUPPORTED_CALS: OnceCell<
-    HashMap<icu_locid::extensions::unicode::Value, &'static str>,
+    HashMap<UnicodeExtensionValue, &'static str>,
 > = OnceCell::new();
 
-fn supported_cals() -> &'static HashMap<icu_locid::extensions::unicode::Value, &'static str> {
+fn supported_cals() -> &'static HashMap<UnicodeExtensionValue, &'static str> {
     SUPPORTED_CALS.get_or_init(|| {
         [
             (unicode_extension_value!("buddhist"), "buddhist"),
@@ -224,14 +224,18 @@ macro_rules! impl_data_provider {
                     let cldr_cal = supported_cals()
                         .get(&unicode_extension_value!($calendar))
                         .ok_or_else(|| DataErrorKind::MissingLocale.into_error())?;
-                    r.extend(self.cldr()?.dates(cldr_cal).list_langs()?.map(DataLocale::from));
+                    r.extend(
+                        self.cldr()?
+                            .dates(cldr_cal)
+                            .list_langs()?
+                            .map(DataLocale::from),
+                    );
                 }
 
                 // TODO(#3212): Remove
                 if $marker::KEY == TimeLengthsV1Marker::KEY {
                     r.retain(|l| {
-                        l.get_langid() != icu_locid::langid!("byn")
-                            && l.get_langid() != icu_locid::langid!("ssy")
+                        l.get_langid() != langid!("byn") && l.get_langid() != langid!("ssy")
                     });
                 }
 

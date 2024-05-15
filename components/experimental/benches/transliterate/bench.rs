@@ -32,7 +32,11 @@ fn bench_data_from_sources(locale_str: &str, source: &str) -> Vec<BenchDataConte
         .map(|(idx, input)| BenchDataContent {
             num: idx + 1,
             name: locale_str.to_string(),
-            translit: Transliterator::try_new_unstable(locale_str.parse().unwrap(), &BakedDataProvider).unwrap(),
+            translit: Transliterator::try_new_unstable(
+                locale_str.parse().unwrap(),
+                &BakedDataProvider,
+            )
+            .unwrap(),
             input,
         })
         .collect()
