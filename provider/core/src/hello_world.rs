@@ -60,14 +60,14 @@ impl KeyedDataMarker for HelloWorldV1Marker {
 /// # Examples
 ///
 /// ```
-/// use icu_locid::locale;
+/// use icu_locid::langid;
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 ///
 /// let german_hello_world: DataPayload<HelloWorldV1Marker> =
 ///     HelloWorldProvider
 ///         .load(DataRequest {
-///             locale: &locale!("de").into(),
+///             locale: &langid!("de").into(),
 ///             metadata: Default::default(),
 ///         })
 ///         .expect("Loading should succeed")
@@ -173,14 +173,14 @@ icu_provider::impl_dynamic_data_provider!(HelloWorldProvider, [HelloWorldV1Marke
 /// # Examples
 ///
 /// ```
-/// use icu_locid::locale;
+/// use icu_locid::langid;
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 ///
 /// let german_hello_world = HelloWorldProvider
 ///     .into_json_provider()
 ///     .load_buffer(HelloWorldV1Marker::KEY, DataRequest {
-///         locale: &locale!("de").into(),
+///         locale: &langid!("de").into(),
 ///         metadata: Default::default(),
 ///     })
 ///     .expect("Loading should succeed")
@@ -234,13 +234,13 @@ icu_provider::make_exportable_provider!(HelloWorldProvider, [HelloWorldV1Marker,
 /// # Examples
 ///
 /// ```
-/// use icu_locid::locale;
+/// use icu_locid::langid;
 /// use icu_provider::hello_world::{HelloWorldFormatter, HelloWorldProvider};
 /// use writeable::assert_writeable_eq;
 ///
 /// let fmt = HelloWorldFormatter::try_new_unstable(
 ///     &HelloWorldProvider,
-///     &locale!("eo").into(),
+///     &langid!("eo").into(),
 /// )
 /// .expect("locale exists");
 ///

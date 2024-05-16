@@ -128,7 +128,7 @@ impl WeekCalculator {
     /// use icu::calendar::week::WeekCalculator;
     ///
     /// let week_calculator =
-    ///     WeekCalculator::try_new(&icu::locid::locale!("und-GB").into())
+    ///     WeekCalculator::try_new(&icu::locid::langid!("und-GB").into())
     ///         .expect("locale should be present");
     ///
     /// // Wednesday the 10th is in week 2:

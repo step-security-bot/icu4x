@@ -98,7 +98,7 @@ impl TryFrom<NumbersWithNumsys<'_>> for DecimalSymbolsV1<'static> {
 
 #[test]
 fn test_basic() {
-    use icu_locid::locale;
+    use icu_locid::langid;
 
     let provider = DatagenProvider::new_testing();
 
