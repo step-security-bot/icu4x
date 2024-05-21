@@ -200,6 +200,10 @@ where
     fn load(&self, req: DataRequest) -> Result<DataResponse<M>, DataError> {
         self.load_data(M::KEY, req)
     }
+
+    fn can_load(&self, req: DataRequest) -> Result<bool, DataError> {
+        self.0.can_load_buffer(M::KEY, req)
+    }
 }
 
 #[cfg(feature = "deserialize_json")]

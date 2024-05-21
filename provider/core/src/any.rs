@@ -347,6 +347,21 @@ where
 pub trait AnyProvider {
     /// Loads an [`AnyPayload`] according to the key and request.
     fn load_any(&self, key: DataKey, req: DataRequest) -> Result<AnyResponse, DataError>;
+
+
+    /// Query whether the provider can load data for a particular request.
+    ///
+    /// This might be cheaper than using [`load_any`].
+    fn can_load_any(&self, key: DataKey, req: DataRequest) -> Result<bool, DataError> {
+        match self.load_any(key, req) {
+            Ok(_) => Ok(true),
+            Err(DataError {
+                kind: DataErrorKind::MissingLocale,
+                ..
+            }) => Ok(false),
+            Err(e) => Err(e),
+        }
+    }
 }
 
 impl<'a, T: AnyProvider + ?Sized> AnyProvider for &'a T {
@@ -407,6 +422,11 @@ where
     fn load_any(&self, key: DataKey, req: DataRequest) -> Result<AnyResponse, DataError> {
         self.0.load_data(key, req)?.try_into()
     }
+
+    #[inline]
+    fn can_load_any(&self, key: DataKey, req: DataRequest) -> Result<bool, DataError> {
+        self.0.can_load_data(key, req)
+    }
 }
 
 /// A wrapper over `AnyProvider` that implements `DynamicDataProvider<M>` via downcasting
@@ -445,6 +465,11 @@ where
             .downcast()
             .map_err(|e| e.with_req(M::KEY, req))
     }
+
+    #[inline]
+    fn can_load(&self, req: DataRequest) -> Result<bool, DataError> {
+        self.0.can_load_any(M::KEY, req)
+    }
 }
 
 impl<M, P> DynamicDataProvider<M> for DowncastingAnyProvider<'_, P>
@@ -461,6 +486,11 @@ where
             .load_any(key, req)?
             .downcast()
             .map_err(|e| e.with_req(key, req))
+    }
+
+    #[inline]
+    fn can_load_data(&self, key: DataKey, req: DataRequest) -> Result<bool, DataError> {
+        self.0.can_load_any(key, req)
     }
 }
 

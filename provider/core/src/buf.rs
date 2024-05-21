@@ -91,6 +91,22 @@ pub trait BufferProvider {
         key: DataKey,
         req: DataRequest,
     ) -> Result<DataResponse<BufferMarker>, DataError>;
+
+    /// Whether the provider can load a buffer for a key/reqeust.
+    fn can_load_buffer(
+        &self,
+        key: DataKey,
+        req: DataRequest,
+    ) -> Result<bool, DataError> {
+        match self.load_buffer(key, req) {
+            Ok(_) => Ok(true),
+            Err(DataError {
+                kind: DataErrorKind::MissingLocale,
+                ..
+            }) => Ok(false),
+            Err(e) => Err(e),
+        }
+    }
 }
 
 impl<'a, T: BufferProvider + ?Sized> BufferProvider for &'a T {

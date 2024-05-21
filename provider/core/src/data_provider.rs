@@ -10,6 +10,7 @@ use crate::key::DataKey;
 use crate::marker::{DataMarker, KeyedDataMarker};
 use crate::request::DataRequest;
 use crate::response::DataResponse;
+use crate::DataErrorKind;
 
 /// A data provider that loads data for a specific [`DataKey`].
 pub trait DataProvider<M>
@@ -21,6 +22,20 @@ where
     /// Returns [`Ok`] if the request successfully loaded data. If data failed to load, returns an
     /// Error with more information.
     fn load(&self, req: DataRequest) -> Result<DataResponse<M>, DataError>;
+
+    /// Query whether the provider can load data for a particular request.
+    /// 
+    /// This might be cheaper than using [`load`].
+    fn can_load(&self, req: DataRequest) -> Result<bool, DataError> {
+        match self.load(req) {
+            Ok(_) => Ok(true),
+            Err(DataError {
+                kind: DataErrorKind::MissingLocale,
+                ..
+            }) => Ok(false),
+            Err(e) => Err(e),
+        }
+    }
 }
 
 impl<'a, M, P> DataProvider<M> for &'a P
@@ -83,6 +98,20 @@ where
     /// Returns [`Ok`] if the request successfully loaded data. If data failed to load, returns an
     /// Error with more information.
     fn load_data(&self, key: DataKey, req: DataRequest) -> Result<DataResponse<M>, DataError>;
+
+    /// Query whether the provider can load data for a particular request.
+    ///
+    /// This might be cheaper than using [`load_data`].
+    fn can_load_data(&self, key: DataKey, req: DataRequest) -> Result<bool, DataError> {
+        match self.load_data(key, req) {
+            Ok(_) => Ok(true),
+            Err(DataError {
+                kind: DataErrorKind::MissingLocale,
+                ..
+            }) => Ok(false),
+            Err(e) => Err(e),
+        }
+    }
 }
 
 impl<'a, M, P> DynamicDataProvider<M> for &'a P
