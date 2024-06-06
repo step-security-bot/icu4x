@@ -1,20 +1,20 @@
 import wasm from "./diplomat-wasm.mjs"
 import * as diplomatRuntime from "./diplomat-runtime.mjs"
-import { ICU4XBidiInfo } from "./ICU4XBidiInfo.mjs"
+import { BidiInfo } from "./BidiInfo.mjs"
 import { ICU4XDataError_js_to_rust, ICU4XDataError_rust_to_js } from "./ICU4XDataError.mjs"
-import { ICU4XReorderedIndexMap } from "./ICU4XReorderedIndexMap.mjs"
+import { ReorderedIndexMap } from "./ReorderedIndexMap.mjs"
 
-const ICU4XBidi_box_destroy_registry = new FinalizationRegistry(underlying => {
+const Bidi_box_destroy_registry = new FinalizationRegistry(underlying => {
   wasm.ICU4XBidi_destroy(underlying);
 });
 
-export class ICU4XBidi {
+export class Bidi {
   #lifetimeEdges = [];
   constructor(underlying, owned, edges) {
     this.underlying = underlying;
     this.#lifetimeEdges.push(...edges);
     if (owned) {
-      ICU4XBidi_box_destroy_registry.register(this, underlying);
+      Bidi_box_destroy_registry.register(this, underlying);
     }
   }
 
@@ -24,7 +24,7 @@ export class ICU4XBidi {
       wasm.ICU4XBidi_create(diplomat_receive_buffer, arg_provider.underlying);
       const is_ok = diplomatRuntime.resultFlag(wasm, diplomat_receive_buffer, 4);
       if (is_ok) {
-        const ok_value = new ICU4XBidi(diplomatRuntime.ptrRead(wasm, diplomat_receive_buffer), true, []);
+        const ok_value = new Bidi(diplomatRuntime.ptrRead(wasm, diplomat_receive_buffer), true, []);
         wasm.diplomat_free(diplomat_receive_buffer, 5, 4);
         return ok_value;
       } else {
@@ -39,7 +39,7 @@ export class ICU4XBidi {
     const buf_arg_text = diplomatRuntime.DiplomatBuf.str8(wasm, arg_text);
     const diplomat_out = (() => {
       const option_ptr = wasm.ICU4XBidi_for_text(this.underlying, buf_arg_text.ptr, buf_arg_text.size, arg_default_level);
-      return (option_ptr == 0) ? undefined : new ICU4XBidiInfo(option_ptr, true, [buf_arg_text]);
+      return (option_ptr == 0) ? undefined : new BidiInfo(option_ptr, true, [buf_arg_text]);
     })();
     buf_arg_text.garbageCollect();
     return diplomat_out;
@@ -47,7 +47,7 @@ export class ICU4XBidi {
 
   reorder_visual(arg_levels) {
     const buf_arg_levels = diplomatRuntime.DiplomatBuf.slice(wasm, arg_levels, "u8");
-    const diplomat_out = new ICU4XReorderedIndexMap(wasm.ICU4XBidi_reorder_visual(this.underlying, buf_arg_levels.ptr, buf_arg_levels.size), true, []);
+    const diplomat_out = new ReorderedIndexMap(wasm.ICU4XBidi_reorder_visual(this.underlying, buf_arg_levels.ptr, buf_arg_levels.size), true, []);
     buf_arg_levels.free();
     return diplomat_out;
   }

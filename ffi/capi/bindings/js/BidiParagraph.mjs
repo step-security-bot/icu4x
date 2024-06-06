@@ -1,18 +1,18 @@
 import wasm from "./diplomat-wasm.mjs"
 import * as diplomatRuntime from "./diplomat-runtime.mjs"
-import { ICU4XBidiDirection_js_to_rust, ICU4XBidiDirection_rust_to_js } from "./ICU4XBidiDirection.mjs"
+import { BidiDirection_js_to_rust, BidiDirection_rust_to_js } from "./BidiDirection.mjs"
 
-const ICU4XBidiParagraph_box_destroy_registry = new FinalizationRegistry(underlying => {
+const BidiParagraph_box_destroy_registry = new FinalizationRegistry(underlying => {
   wasm.ICU4XBidiParagraph_destroy(underlying);
 });
 
-export class ICU4XBidiParagraph {
+export class BidiParagraph {
   #lifetimeEdges = [];
   constructor(underlying, owned, edges) {
     this.underlying = underlying;
     this.#lifetimeEdges.push(...edges);
     if (owned) {
-      ICU4XBidiParagraph_box_destroy_registry.register(this, underlying);
+      BidiParagraph_box_destroy_registry.register(this, underlying);
     }
   }
 
@@ -21,7 +21,7 @@ export class ICU4XBidiParagraph {
   }
 
   direction() {
-    return ICU4XBidiDirection_rust_to_js[wasm.ICU4XBidiParagraph_direction(this.underlying)];
+    return BidiDirection_rust_to_js[wasm.ICU4XBidiParagraph_direction(this.underlying)];
   }
 
   size() {

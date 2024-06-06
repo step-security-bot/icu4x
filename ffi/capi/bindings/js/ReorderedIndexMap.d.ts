@@ -6,9 +6,9 @@ import { usize } from "./diplomat-runtime"
 
  * `map[visualIndex] = sourceIndex`
 
- * Produced by `reorder_visual()` on {@link ICU4XBidi `ICU4XBidi`}.
+ * Produced by `reorder_visual()` on {@link Bidi `Bidi`}.
  */
-export class ICU4XReorderedIndexMap {
+export class ReorderedIndexMap {
 
   /**
 

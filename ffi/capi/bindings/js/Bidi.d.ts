@@ -1,9 +1,9 @@
 import { u8 } from "./diplomat-runtime"
 import { FFIError } from "./diplomat-runtime"
-import { ICU4XBidiInfo } from "./ICU4XBidiInfo";
+import { BidiInfo } from "./BidiInfo";
 import { ICU4XDataError } from "./ICU4XDataError";
 import { ICU4XDataProvider } from "./ICU4XDataProvider";
-import { ICU4XReorderedIndexMap } from "./ICU4XReorderedIndexMap";
+import { ReorderedIndexMap } from "./ReorderedIndexMap";
 
 /**
 
@@ -11,16 +11,16 @@ import { ICU4XReorderedIndexMap } from "./ICU4XReorderedIndexMap";
 
  * See the {@link https://docs.rs/icu/latest/icu/properties/bidi/struct.BidiClassAdapter.html Rust documentation for `BidiClassAdapter`} for more information.
  */
-export class ICU4XBidi {
+export class Bidi {
 
   /**
 
-   * Creates a new {@link ICU4XBidi `ICU4XBidi`} from locale data.
+   * Creates a new {@link Bidi `Bidi`} from locale data.
 
    * See the {@link https://docs.rs/icu/latest/icu/properties/bidi/struct.BidiClassAdapter.html#method.new Rust documentation for `new`} for more information.
    * @throws {@link FFIError}<{@link ICU4XDataError}>
    */
-  static create(provider: ICU4XDataProvider): ICU4XBidi | never;
+  static create(provider: ICU4XDataProvider): Bidi | never;
 
   /**
 
@@ -32,7 +32,7 @@ export class ICU4XBidi {
 
    * See the {@link https://docs.rs/unicode_bidi/latest/unicode_bidi/struct.BidiInfo.html#method.new_with_data_source Rust documentation for `new_with_data_source`} for more information.
    */
-  for_text(text: string, default_level: u8): ICU4XBidiInfo | undefined;
+  for_text(text: string, default_level: u8): BidiInfo | undefined;
 
   /**
 
@@ -44,7 +44,7 @@ export class ICU4XBidi {
 
    * See the {@link https://docs.rs/unicode_bidi/latest/unicode_bidi/struct.BidiInfo.html#method.reorder_visual Rust documentation for `reorder_visual`} for more information.
    */
-  reorder_visual(levels: Uint8Array): ICU4XReorderedIndexMap;
+  reorder_visual(levels: Uint8Array): ReorderedIndexMap;
 
   /**
 

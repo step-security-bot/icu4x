@@ -8,7 +8,7 @@ pub mod ffi {
         errors::ffi::ICU4XDataError,
         locale::ffi::ICU4XLocaleExpander,
         locale_core::ffi::ICU4XLocale,
-        provider::{ffi::ICU4XDataProvider, ICU4XDataProviderInner},
+        provider::{ffi::ICU4XDataProvider, DataProviderInner},
     };
     use alloc::boxed::Box;
     use icu_locale::{Direction, LocaleDirectionality};
@@ -49,24 +49,24 @@ pub mod ffi {
             #[allow(unused_imports)]
             use icu_provider::prelude::*;
             Ok(Box::new(ICU4XLocaleDirectionality(match &provider.0 {
-                ICU4XDataProviderInner::Destroyed => Err(icu_provider::DataError::custom(
+                DataProviderInner::Destroyed => Err(icu_provider::DataError::custom(
                     "This provider has been destroyed",
                 ))?,
-                ICU4XDataProviderInner::Empty => {
+                DataProviderInner::Empty => {
                     LocaleDirectionality::try_new_with_expander_unstable(
                         &icu_provider_adapters::empty::EmptyDataProvider::new(),
                         expander.0.clone(),
                     )?
                 }
                 #[cfg(feature = "buffer_provider")]
-                ICU4XDataProviderInner::Buffer(buffer_provider) => {
+                DataProviderInner::Buffer(buffer_provider) => {
                     LocaleDirectionality::try_new_with_expander_unstable(
                         &buffer_provider.as_deserializing(),
                         expander.0.clone(),
                     )?
                 }
                 #[cfg(feature = "compiled_data")]
-                ICU4XDataProviderInner::Compiled => {
+                DataProviderInner::Compiled => {
                     LocaleDirectionality::new_with_expander(expander.0.clone())
                 }
             })))

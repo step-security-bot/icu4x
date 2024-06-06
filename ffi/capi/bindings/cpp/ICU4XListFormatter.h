@@ -30,7 +30,7 @@ diplomat_result_box_ICU4XListFormatter_ICU4XDataError ICU4XListFormatter_create_
 
 void ICU4XListFormatter_format_valid_utf8(const ICU4XListFormatter* self, DiplomatStringsView* list_data, size_t list_len, DiplomatWrite* write);
 
-void ICU4XListFormatter_format_utf8(const ICU4XListFormatter* self, DiplomatStringsView* list_data, size_t list_len, DiplomatWrite* write);
+void ICU4XListFormatter_format(const ICU4XListFormatter* self, DiplomatStringsView* list_data, size_t list_len, DiplomatWrite* write);
 
 void ICU4XListFormatter_format_utf16(const ICU4XListFormatter* self, DiplomatStrings16View* list_data, size_t list_len, DiplomatWrite* write);
 

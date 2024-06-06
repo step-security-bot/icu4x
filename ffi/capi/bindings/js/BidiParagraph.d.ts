@@ -1,17 +1,17 @@
 import { u8, usize } from "./diplomat-runtime"
-import { ICU4XBidiDirection } from "./ICU4XBidiDirection";
+import { BidiDirection } from "./BidiDirection";
 
 /**
 
  * Bidi information for a single processed paragraph
  */
-export class ICU4XBidiParagraph {
+export class BidiParagraph {
 
   /**
 
    * Given a paragraph index `n` within the surrounding text, this sets this object to the paragraph at that index. Returns `ICU4XDataError::OutOfBoundsError` when out of bounds.
 
-   * This is equivalent to calling `paragraph_at()` on `ICU4XBidiInfo` but doesn't create a new object
+   * This is equivalent to calling `paragraph_at()` on `BidiInfo` but doesn't create a new object
    */
   set_paragraph_in_text(n: usize): boolean;
 
@@ -21,7 +21,7 @@ export class ICU4XBidiParagraph {
 
    * See the {@link https://docs.rs/unicode_bidi/latest/unicode_bidi/struct.Paragraph.html#method.level_at Rust documentation for `level_at`} for more information.
    */
-  direction(): ICU4XBidiDirection;
+  direction(): BidiDirection;
 
   /**
 
@@ -53,7 +53,7 @@ export class ICU4XBidiParagraph {
 
   /**
 
-   * Get the BIDI level at a particular byte index in this paragraph. This integer is conceptually a `unicode_bidi::Level`, and can be further inspected using the static methods on ICU4XBidi.
+   * Get the BIDI level at a particular byte index in this paragraph. This integer is conceptually a `unicode_bidi::Level`, and can be further inspected using the static methods on `Bidi`.
 
    * Returns 0 (equivalent to `Level::ltr()`) on error
 

@@ -1,19 +1,19 @@
 import wasm from "./diplomat-wasm.mjs"
 import * as diplomatRuntime from "./diplomat-runtime.mjs"
 
-export const ICU4XListLength_js_to_rust = {
+export const ListLength_js_to_rust = {
   "Wide": 0,
   "Short": 1,
   "Narrow": 2,
 };
 
-export const ICU4XListLength_rust_to_js = {
+export const ListLength_rust_to_js = {
   [0]: "Wide",
   [1]: "Short",
   [2]: "Narrow",
 };
 
-export const ICU4XListLength = {
+export const ListLength = {
   "Wide": "Wide",
   "Short": "Short",
   "Narrow": "Narrow",

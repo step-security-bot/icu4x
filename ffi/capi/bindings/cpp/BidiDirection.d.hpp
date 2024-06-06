@@ -1,5 +1,5 @@
-#ifndef ICU4XBidiDirection_D_HPP
-#define ICU4XBidiDirection_D_HPP
+#ifndef BidiDirection_D_HPP
+#define BidiDirection_D_HPP
 
 #include <stdio.h>
 #include <stdint.h>
@@ -11,7 +11,7 @@
 #include "ICU4XBidiDirection.d.h"
 
 
-class ICU4XBidiDirection {
+class BidiDirection {
 public:
   enum Value {
     Ltr = 0,
@@ -19,18 +19,18 @@ public:
     Mixed = 2,
   };
 
-  ICU4XBidiDirection() = default;
+  BidiDirection() = default;
   // Implicit conversions between enum and ::Value
-  constexpr ICU4XBidiDirection(Value v) : value(v) {}
+  constexpr BidiDirection(Value v) : value(v) {}
   constexpr operator Value() const { return value; }
   // Prevent usage as boolean value
   explicit operator bool() const = delete;
 
   inline capi::ICU4XBidiDirection AsFFI() const;
-  inline static ICU4XBidiDirection FromFFI(capi::ICU4XBidiDirection c_enum);
+  inline static BidiDirection FromFFI(capi::ICU4XBidiDirection c_enum);
 private:
     Value value;
 };
 
 
-#endif // ICU4XBidiDirection_D_HPP
+#endif // BidiDirection_D_HPP

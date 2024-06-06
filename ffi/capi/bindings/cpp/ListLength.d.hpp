@@ -1,5 +1,5 @@
-#ifndef ICU4XListLength_D_HPP
-#define ICU4XListLength_D_HPP
+#ifndef ListLength_D_HPP
+#define ListLength_D_HPP
 
 #include <stdio.h>
 #include <stdint.h>
@@ -11,7 +11,7 @@
 #include "ICU4XListLength.d.h"
 
 
-class ICU4XListLength {
+class ListLength {
 public:
   enum Value {
     Wide = 0,
@@ -19,18 +19,18 @@ public:
     Narrow = 2,
   };
 
-  ICU4XListLength() = default;
+  ListLength() = default;
   // Implicit conversions between enum and ::Value
-  constexpr ICU4XListLength(Value v) : value(v) {}
+  constexpr ListLength(Value v) : value(v) {}
   constexpr operator Value() const { return value; }
   // Prevent usage as boolean value
   explicit operator bool() const = delete;
 
   inline capi::ICU4XListLength AsFFI() const;
-  inline static ICU4XListLength FromFFI(capi::ICU4XListLength c_enum);
+  inline static ListLength FromFFI(capi::ICU4XListLength c_enum);
 private:
     Value value;
 };
 
 
-#endif // ICU4XListLength_D_HPP
+#endif // ListLength_D_HPP

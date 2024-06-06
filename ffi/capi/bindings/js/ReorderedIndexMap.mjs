@@ -1,17 +1,17 @@
 import wasm from "./diplomat-wasm.mjs"
 import * as diplomatRuntime from "./diplomat-runtime.mjs"
 
-const ICU4XReorderedIndexMap_box_destroy_registry = new FinalizationRegistry(underlying => {
+const ReorderedIndexMap_box_destroy_registry = new FinalizationRegistry(underlying => {
   wasm.ICU4XReorderedIndexMap_destroy(underlying);
 });
 
-export class ICU4XReorderedIndexMap {
+export class ReorderedIndexMap {
   #lifetimeEdges = [];
   constructor(underlying, owned, edges) {
     this.underlying = underlying;
     this.#lifetimeEdges.push(...edges);
     if (owned) {
-      ICU4XReorderedIndexMap_box_destroy_registry.register(this, underlying);
+      ReorderedIndexMap_box_destroy_registry.register(this, underlying);
     }
   }
 

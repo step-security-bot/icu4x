@@ -13,7 +13,7 @@ use yoke::{trait_hack::YokeTraitHack, Yokeable};
 #[allow(unused_imports)] // feature-specific
 use zerofrom::ZeroFrom;
 
-pub enum ICU4XDataProviderInner {
+pub enum DataProviderInner {
     Destroyed,
     Empty,
     #[cfg(feature = "compiled_data")]
@@ -24,7 +24,7 @@ pub enum ICU4XDataProviderInner {
 
 #[diplomat::bridge]
 pub mod ffi {
-    use super::ICU4XDataProviderInner;
+    use super::DataProviderInner;
     use crate::errors::ffi::ICU4XDataError;
     use alloc::boxed::Box;
     #[allow(unused_imports)] // feature-gated
@@ -35,13 +35,13 @@ pub mod ffi {
     #[diplomat::opaque]
     /// An ICU4X data provider, capable of loading ICU4X data keys from some source.
     #[diplomat::rust_link(icu_provider, Mod)]
-    pub struct ICU4XDataProvider(pub ICU4XDataProviderInner);
+    pub struct ICU4XDataProvider(pub DataProviderInner);
 
     #[cfg(feature = "buffer_provider")]
     fn convert_buffer_provider<D: icu_provider::BufferProvider + 'static>(
         x: D,
     ) -> ICU4XDataProvider {
-        ICU4XDataProvider(super::ICU4XDataProviderInner::Buffer(Box::new(x)))
+        ICU4XDataProvider(super::DataProviderInner::Buffer(Box::new(x)))
     }
 
     impl ICU4XDataProvider {
@@ -54,7 +54,7 @@ pub mod ffi {
         #[cfg(feature = "compiled_data")]
         #[diplomat::attr(all(supports = constructors, supports = fallible_constructors, supports = named_constructors), named_constructor = "compiled")]
         pub fn create_compiled() -> Box<ICU4XDataProvider> {
-            Box::new(Self(ICU4XDataProviderInner::Compiled))
+            Box::new(Self(DataProviderInner::Compiled))
         }
 
         /// Constructs an `FsDataProvider` and returns it as an [`ICU4XDataProvider`].
@@ -97,7 +97,7 @@ pub mod ffi {
         )]
         #[diplomat::attr(all(supports = constructors, supports = fallible_constructors, supports = named_constructors), named_constructor = "empty")]
         pub fn create_empty() -> Box<ICU4XDataProvider> {
-            Box::new(ICU4XDataProvider(ICU4XDataProviderInner::Empty))
+            Box::new(ICU4XDataProvider(DataProviderInner::Empty))
         }
 
         /// Creates a provider that tries the current provider and then, if the current provider
@@ -116,7 +116,7 @@ pub mod ffi {
         )]
         pub fn fork_by_key(&mut self, other: &mut ICU4XDataProvider) -> Result<(), ICU4XDataError> {
             #[allow(unused_imports)]
-            use ICU4XDataProviderInner::*;
+            use DataProviderInner::*;
             *self = match (
                 core::mem::replace(&mut self.0, Destroyed),
                 core::mem::replace(&mut other.0, Destroyed),
@@ -128,7 +128,7 @@ pub mod ffi {
                 (Compiled, _) | (_, Compiled) => Err(icu_provider::DataError::custom(
                     "The compiled provider cannot be modified",
                 ))?,
-                (Empty, Empty) => ICU4XDataProvider(ICU4XDataProviderInner::Empty),
+                (Empty, Empty) => ICU4XDataProvider(DataProviderInner::Empty),
                 #[cfg(feature = "buffer_provider")]
                 (Empty, b) | (b, Empty) => ICU4XDataProvider(b),
                 #[cfg(feature = "buffer_provider")]
@@ -149,7 +149,7 @@ pub mod ffi {
             other: &mut ICU4XDataProvider,
         ) -> Result<(), ICU4XDataError> {
             #[allow(unused_imports)]
-            use ICU4XDataProviderInner::*;
+            use DataProviderInner::*;
             *self = match (
                 core::mem::replace(&mut self.0, Destroyed),
                 core::mem::replace(&mut other.0, Destroyed),
@@ -161,7 +161,7 @@ pub mod ffi {
                 (Compiled, _) | (_, Compiled) => Err(icu_provider::DataError::custom(
                     "The compiled provider cannot be modified",
                 ))?,
-                (Empty, Empty) => ICU4XDataProvider(ICU4XDataProviderInner::Empty),
+                (Empty, Empty) => ICU4XDataProvider(DataProviderInner::Empty),
                 #[cfg(feature = "buffer_provider")]
                 (Empty, b) | (b, Empty) => ICU4XDataProvider(b),
                 #[cfg(feature = "buffer_provider")]
@@ -189,7 +189,7 @@ pub mod ffi {
             compact
         )]
         pub fn enable_locale_fallback(&mut self) -> Result<(), ICU4XDataError> {
-            use ICU4XDataProviderInner::*;
+            use DataProviderInner::*;
             *self = match core::mem::replace(&mut self.0, Destroyed) {
                 Destroyed => Err(icu_provider::DataError::custom(
                     "This provider has been destroyed",
@@ -222,7 +222,7 @@ pub mod ffi {
             &mut self,
             fallbacker: &crate::fallbacker::ffi::ICU4XLocaleFallbacker,
         ) -> Result<(), ICU4XDataError> {
-            use ICU4XDataProviderInner::*;
+            use DataProviderInner::*;
             *self = match core::mem::replace(&mut self.0, Destroyed) {
                 Destroyed => Err(icu_provider::DataError::custom(
                     "This provider has been destroyed",
@@ -317,7 +317,7 @@ macro_rules! call_constructor_unstable {
 }
 
 #[cfg(not(feature = "buffer_provider"))]
-impl<M> DataProvider<M> for ICU4XDataProviderInner
+impl<M> DataProvider<M> for DataProviderInner
 where
     M: DataMarker,
 {
@@ -325,7 +325,7 @@ where
 }
 
 #[cfg(feature = "buffer_provider")]
-impl<M> DataProvider<M> for ICU4XDataProviderInner
+impl<M> DataProvider<M> for DataProviderInner
 where
     M: DataMarker,
     // Actual bound:

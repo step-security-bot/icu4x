@@ -1,7 +1,7 @@
 
 /**
  */
-export enum ICU4XBidiDirection {
+export enum BidiDirection {
   /**
    */
   Ltr = 'Ltr',

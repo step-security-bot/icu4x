@@ -3,7 +3,7 @@
 
  * See the {@link https://docs.rs/icu/latest/icu/list/enum.ListLength.html Rust documentation for `ListLength`} for more information.
  */
-export enum ICU4XListLength {
+export enum ListLength {
   /**
    */
   Wide = 'Wide',

@@ -602,7 +602,7 @@ name = "diplomat"
 version = "0.8.0"
 source = "git+https://github.com/rust-diplomat/diplomat?rev=dbb32938c2d0176474f44907df057afd1df2dea7#dbb32938c2d0176474f44907df057afd1df2dea7"
 dependencies = [
- "diplomat_core",
+ "diplomat_core 0.8.0 (git+https://github.com/rust-diplomat/diplomat?rev=dbb32938c2d0176474f44907df057afd1df2dea7)",
  "proc-macro2",
  "quote",
  "syn 2.0.66",
@@ -626,12 +626,11 @@ dependencies = [
 [[package]]
 name = "diplomat-tool"
 version = "0.8.0"
-source = "git+https://github.com/rust-diplomat/diplomat?rev=dbb32938c2d0176474f44907df057afd1df2dea7#dbb32938c2d0176474f44907df057afd1df2dea7"
 dependencies = [
  "askama",
  "clap",
  "colored",
- "diplomat_core",
+ "diplomat_core 0.8.0",
  "displaydoc",
  "heck 0.4.1",
  "indenter",
@@ -646,10 +645,23 @@ dependencies = [
 [[package]]
 name = "diplomat_core"
 version = "0.8.0"
-source = "git+https://github.com/rust-diplomat/diplomat?rev=dbb32938c2d0176474f44907df057afd1df2dea7#dbb32938c2d0176474f44907df057afd1df2dea7"
 dependencies = [
  "displaydoc",
  "either",
+ "lazy_static",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "smallvec",
+ "strck_ident",
+ "syn 2.0.66",
+]
+
+[[package]]
+name = "diplomat_core"
+version = "0.8.0"
+source = "git+https://github.com/rust-diplomat/diplomat?rev=dbb32938c2d0176474f44907df057afd1df2dea7#dbb32938c2d0176474f44907df057afd1df2dea7"
+dependencies = [
  "lazy_static",
  "proc-macro2",
  "quote",
@@ -1240,7 +1252,7 @@ version = "0.1.0"
 name = "icu_ffi_coverage"
 version = "0.0.0"
 dependencies = [
- "diplomat_core",
+ "diplomat_core 0.8.0 (git+https://github.com/rust-diplomat/diplomat?rev=dbb32938c2d0176474f44907df057afd1df2dea7)",
  "elsa",
  "lazy_static",
  "rustdoc-types",
