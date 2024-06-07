@@ -18,28 +18,37 @@ pub fn bake(
         .into_iter()
         .map(|((l, a), i)| {
             (
-                DataRequest {
-                    locale: &l,
-                    marker_attributes: &a,
-                    ..Default::default()
-                }
-                .legacy_encode(),
+                l.to_string(),
+                a.to_string(),
                 quote!(#i),
             )
         })
         .collect::<Vec<_>>();
 
-    data.sort_by(|(a, _), (b, _)| a.cmp(b));
-
+    data.sort_by(|(al, aa, _), (bl, ba, _)| (al, aa).cmp(&(bl, ba)));
     let n = data.len();
-    let data = data.iter().map(|(r, i)| quote!((#r, &#i)));
 
-    quote! {
-        static DATA: [(&str, & #struct_type); #n] = [#(#data,)*];
-        fn lookup(req: icu_provider::DataRequest) -> Option<&'static #struct_type> {
-            DATA.binary_search_by(|(k, _)| req.legacy_cmp(k.as_bytes()).reverse())
-                .map(|i| (*unsafe { DATA.get_unchecked(i) }).1)
-                .ok()
+    if data.iter().any(|(_, a, _)| !a.is_empty()) {
+        let data = data.iter().map(|(l, a, i)| quote!((#l, #a, &#i)));
+
+        quote! {
+            static DATA: [(&str, &str, & #struct_type); #n] = [#(#data,)*];
+            fn lookup(req: icu_provider::DataRequest) -> Option<&'static #struct_type> {
+                DATA.binary_search_by(|(l, a, _)| req.locale.strict_cmp(l.as_bytes()).reverse().then_with(|| a.cmp(&&**req.marker_attributes)))
+                    .map(|i| (*unsafe { DATA.get_unchecked(i) }).2)
+                    .ok()
+            }
+        }
+    } else {
+        let data = data.iter().map(|(l, _, i)| quote!((#l, &#i)));
+
+        quote! {
+            static DATA: [(&str, & #struct_type); #n] = [#(#data,)*];
+            fn lookup(req: icu_provider::DataRequest) -> Option<&'static #struct_type> {
+                DATA.binary_search_by(|(l, _)| req.locale.strict_cmp(k.as_bytes()).reverse())
+                    .map(|i| (*unsafe { DATA.get_unchecked(i) }).1)
+                    .ok()
+            }
         }
     }
 }

@@ -73,7 +73,7 @@ macro_rules! __impl_plurals_ranges_v1 {
                 };
                 static DATA: [(&str, &<icu::plurals::provider::PluralRangesV1Marker as icu_provider::DynamicDataMarker>::Yokeable); 25usize] = [("af", &AF), ("ar", &AR), ("bg", &AF), ("ca", &AF), ("en", &AF), ("es", &AF), ("et", &AF), ("eu", &AF), ("fa", &FA), ("fi", &AF), ("he", &HE), ("ia", &AF), ("ka", &KA), ("lv", &LV), ("mk", &MK), ("no", &AF), ("or", &FA), ("pcm", &AF), ("ro", &RO), ("sd", &FA), ("si", &AF), ("sl", &SL), ("sv", &AF), ("und", &UND), ("ur", &AF)];
                 fn lookup(req: icu_provider::DataRequest) -> Option<&'static <icu::plurals::provider::PluralRangesV1Marker as icu_provider::DynamicDataMarker>::Yokeable> {
-                    DATA.binary_search_by(|(k, _)| req.legacy_cmp(k.as_bytes()).reverse()).map(|i| (*unsafe { DATA.get_unchecked(i) }).1).ok()
+                    DATA.binary_search_by(|(l, _)| req.locale.strict_cmp(k.as_bytes()).reverse()).map(|i| (*unsafe { DATA.get_unchecked(i) }).1).ok()
                 }
                 let mut metadata = icu_provider::DataResponseMetadata::default();
                 let payload = if let Some(payload) = lookup(req) {
