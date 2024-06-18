@@ -4,7 +4,6 @@
 
 use crate::provider::*;
 use alloc::vec::Vec;
-use icu_locid::{langid, LanguageIdentifier};
 use icu_provider::prelude::*;
 
 mod dictionary;

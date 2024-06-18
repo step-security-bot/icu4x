@@ -350,7 +350,6 @@ fn test_basic() {
     }
 
     use icu_experimental::dimension::provider::currency::*;
-    use icu_locid::langid;
 
     let provider = DatagenProvider::new_testing();
 

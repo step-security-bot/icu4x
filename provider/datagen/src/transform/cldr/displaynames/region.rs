@@ -91,7 +91,7 @@ impl TryFrom<&cldr_serde::displaynames::region::Resource> for RegionDisplayNames
 #[cfg(test)]
 mod tests {
     use super::*;
-    use icu_locid::{langid, subtags::region};
+    use icu_locid::subtags::region;
 
     #[test]
     fn test_basic() {

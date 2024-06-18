@@ -6,22 +6,21 @@ use crate::provider::calendar::*;
 use crate::provider::neo::*;
 use alloc::vec;
 use icu_calendar::types::MonthCode;
-use icu_locid::extensions::private::{subtag, Subtag};
 use icu_provider::prelude::*;
 
 mod subtag_consts {
     use super::*;
-    pub const STADLN_ABBR: Subtag = subtag!("3s");
-    pub const STADLN_WIDE: Subtag = subtag!("4s");
-    pub const STADLN_NARW: Subtag = subtag!("5s");
-    pub const STADLN_SHRT: Subtag = subtag!("6s");
-    pub const FORMAT_ABBR: Subtag = subtag!("3");
-    pub const FORMAT_WIDE: Subtag = subtag!("4");
-    pub const FORMAT_NARW: Subtag = subtag!("5");
-    pub const FORMAT_SHRT: Subtag = subtag!("6");
+    pub const STADLN_ABBR: AuxiliaryKey = aux_key!("3s");
+    pub const STADLN_WIDE: AuxiliaryKey = aux_key!("4s");
+    pub const STADLN_NARW: AuxiliaryKey = aux_key!("5s");
+    pub const STADLN_SHRT: AuxiliaryKey = aux_key!("6s");
+    pub const FORMAT_ABBR: AuxiliaryKey = aux_key!("3");
+    pub const FORMAT_WIDE: AuxiliaryKey = aux_key!("4");
+    pub const FORMAT_NARW: AuxiliaryKey = aux_key!("5");
+    pub const FORMAT_SHRT: AuxiliaryKey = aux_key!("6");
 }
 
-fn single_aux_subtag<M: KeyedDataMarker>(locale: &DataLocale) -> Result<Subtag, DataError> {
+fn single_aux_subtag<M: KeyedDataMarker>(locale: &DataLocale) -> Result<AuxiliaryKey, DataError> {
     let Some(aux) = locale.get_aux() else {
         return Err(DataError::custom("Expected a single aux key")
             .with_key(M::KEY)
@@ -469,7 +468,6 @@ impl_data_provider_adapter!(
 #[cfg(feature = "compiled_data")]
 mod tests {
     use super::*;
-    use icu_locid::langid;
 
     #[test]
     fn test_adapter_months_numeric() {

@@ -927,15 +927,18 @@ impl<R: DateTimeNamesMarker> RawDateTimeNames<R> {
             NamePresence::Mismatched => return Err(SingleLoadError::DuplicateField(field)),
         };
         let mut locale = locale.clone();
-        locale.set_aux(AuxiliaryKeys::from_subtag(aux::symbol_subtag_for(
-            aux::Context::Format,
-            match field_length {
-                FieldLength::Abbreviated => aux::Length::Abbr,
-                FieldLength::Narrow => aux::Length::Narrow,
-                FieldLength::Wide => aux::Length::Wide,
-                _ => return Err(SingleLoadError::UnsupportedField(field)),
-            },
-        )));
+        locale.set_aux(
+            aux::symbol_subtag_for(
+                aux::Context::Format,
+                match field_length {
+                    FieldLength::Abbreviated => aux::Length::Abbr,
+                    FieldLength::Narrow => aux::Length::Narrow,
+                    FieldLength::Wide => aux::Length::Wide,
+                    _ => return Err(SingleLoadError::UnsupportedField(field)),
+                },
+            )
+            .into(),
+        );
         let payload = provider
             .load_bound(DataRequest {
                 locale: &locale,
@@ -976,18 +979,21 @@ impl<R: DateTimeNamesMarker> RawDateTimeNames<R> {
             NamePresence::Mismatched => return Err(SingleLoadError::DuplicateField(field)),
         };
         let mut locale = locale.clone();
-        locale.set_aux(AuxiliaryKeys::from_subtag(aux::symbol_subtag_for(
-            match field_symbol {
-                fields::Month::Format => aux::Context::Format,
-                fields::Month::StandAlone => aux::Context::Standalone,
-            },
-            match field_length {
-                FieldLength::Abbreviated => aux::Length::Abbr,
-                FieldLength::Narrow => aux::Length::Narrow,
-                FieldLength::Wide => aux::Length::Wide,
-                _ => return Err(SingleLoadError::UnsupportedField(field)),
-            },
-        )));
+        locale.set_aux(
+            aux::symbol_subtag_for(
+                match field_symbol {
+                    fields::Month::Format => aux::Context::Format,
+                    fields::Month::StandAlone => aux::Context::Standalone,
+                },
+                match field_length {
+                    FieldLength::Abbreviated => aux::Length::Abbr,
+                    FieldLength::Narrow => aux::Length::Narrow,
+                    FieldLength::Wide => aux::Length::Wide,
+                    _ => return Err(SingleLoadError::UnsupportedField(field)),
+                },
+            )
+            .into(),
+        );
         let payload = provider
             .load_bound(DataRequest {
                 locale: &locale,
@@ -1026,15 +1032,18 @@ impl<R: DateTimeNamesMarker> RawDateTimeNames<R> {
             NamePresence::Mismatched => return Err(SingleLoadError::DuplicateField(field)),
         };
         let mut locale = locale.clone();
-        locale.set_aux(AuxiliaryKeys::from_subtag(aux::symbol_subtag_for(
-            aux::Context::Format,
-            match field_length {
-                FieldLength::Abbreviated => aux::Length::Abbr,
-                FieldLength::Narrow => aux::Length::Narrow,
-                FieldLength::Wide => aux::Length::Wide,
-                _ => return Err(SingleLoadError::UnsupportedField(field)),
-            },
-        )));
+        locale.set_aux(
+            aux::symbol_subtag_for(
+                aux::Context::Format,
+                match field_length {
+                    FieldLength::Abbreviated => aux::Length::Abbr,
+                    FieldLength::Narrow => aux::Length::Narrow,
+                    FieldLength::Wide => aux::Length::Wide,
+                    _ => return Err(SingleLoadError::UnsupportedField(field)),
+                },
+            )
+            .into(),
+        );
         let payload = R::DayPeriodNames::load_from(
             provider,
             DataRequest {
@@ -1078,20 +1087,23 @@ impl<R: DateTimeNamesMarker> RawDateTimeNames<R> {
             NamePresence::Mismatched => return Err(SingleLoadError::DuplicateField(field)),
         };
         let mut locale = locale.clone();
-        locale.set_aux(AuxiliaryKeys::from_subtag(aux::symbol_subtag_for(
-            match field_symbol {
-                // UTS 35 says that "e" and "E" have the same non-numeric names
-                fields::Weekday::Format | fields::Weekday::Local => aux::Context::Format,
-                fields::Weekday::StandAlone => aux::Context::Standalone,
-            },
-            match field_length {
-                FieldLength::Abbreviated => aux::Length::Abbr,
-                FieldLength::Narrow => aux::Length::Narrow,
-                FieldLength::Wide => aux::Length::Wide,
-                FieldLength::Six => aux::Length::Short,
-                _ => return Err(SingleLoadError::UnsupportedField(field)),
-            },
-        )));
+        locale.set_aux(
+            aux::symbol_subtag_for(
+                match field_symbol {
+                    // UTS 35 says that "e" and "E" have the same non-numeric names
+                    fields::Weekday::Format | fields::Weekday::Local => aux::Context::Format,
+                    fields::Weekday::StandAlone => aux::Context::Standalone,
+                },
+                match field_length {
+                    FieldLength::Abbreviated => aux::Length::Abbr,
+                    FieldLength::Narrow => aux::Length::Narrow,
+                    FieldLength::Wide => aux::Length::Wide,
+                    FieldLength::Six => aux::Length::Short,
+                    _ => return Err(SingleLoadError::UnsupportedField(field)),
+                },
+            )
+            .into(),
+        );
         let payload = provider
             .load_bound(DataRequest {
                 locale: &locale,
@@ -1542,7 +1554,6 @@ impl<'data> TimeSymbols for RawDateTimeNamesBorrowed<'data> {
 mod tests {
     use super::*;
     use icu_calendar::{DateTime, Gregorian};
-    use icu_locid::langid;
     use writeable::assert_try_writeable_eq;
 
     #[test]

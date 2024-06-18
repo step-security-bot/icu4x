@@ -108,7 +108,6 @@ fn extract_percent_essentials<'data>(
 #[test]
 fn test_basic() {
     use icu_experimental::dimension::provider::percent::*;
-    use icu_locid::langid;
 
     let provider = DatagenProvider::new_testing();
 

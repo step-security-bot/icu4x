@@ -60,7 +60,6 @@ impl KeyedDataMarker for HelloWorldV1Marker {
 /// # Examples
 ///
 /// ```
-/// use icu_locid::langid;
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 ///
@@ -173,7 +172,6 @@ icu_provider::impl_dynamic_data_provider!(HelloWorldProvider, [HelloWorldV1Marke
 /// # Examples
 ///
 /// ```
-/// use icu_locid::langid;
 /// use icu_provider::hello_world::*;
 /// use icu_provider::prelude::*;
 ///
@@ -234,7 +232,7 @@ icu_provider::make_exportable_provider!(HelloWorldProvider, [HelloWorldV1Marker,
 /// # Examples
 ///
 /// ```
-/// use icu_locid::langid;
+/// use icu_provider::prelude::*;
 /// use icu_provider::hello_world::{HelloWorldFormatter, HelloWorldProvider};
 /// use writeable::assert_writeable_eq;
 ///

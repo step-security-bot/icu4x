@@ -93,7 +93,7 @@ impl TryFrom<&cldr_serde::displaynames::script::Resource> for ScriptDisplayNames
 #[cfg(test)]
 mod tests {
     use super::*;
-    use icu_locid::{langid, subtags::script};
+    use icu_locid::subtags::script;
 
     #[test]
     fn test_basic_script_display_names() {

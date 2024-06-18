@@ -9,8 +9,6 @@ use crate::provider::DatagenProvider;
 use crate::provider::IterableDataProviderInternal;
 use icu_collator::provider::*;
 use icu_collections::codepointtrie::CodePointTrie;
-use icu_locid::extensions::unicode::key;
-use icu_locid::extensions::unicode::Value;
 use icu_locid::subtags::language;
 use icu_locid::subtags::Language;
 use icu_locid::subtags::Region;
@@ -83,7 +81,7 @@ impl DataProvider<CollationFallbackSupplementV1Marker> for DatagenProvider {
             .chain(parent_locales.collations.iter().map(|(from, to)| {
                 (
                     <&UnvalidatedStr>::from(from.as_str()),
-                    <(Language, Option<Script>, Option<Region>)>::from(to),
+                    <(_, _, _)>::from(to),
                 )
             }))
             .collect();
@@ -92,12 +90,12 @@ impl DataProvider<CollationFallbackSupplementV1Marker> for DatagenProvider {
             parents,
             unicode_extension_defaults: [
                 (
-                    key!("co"),
+                    unicode_extension_key!("co"),
                     <&UnvalidatedStr>::from("zh"),
                     <&UnvalidatedStr>::from("pinyin"),
                 ),
                 (
-                    key!("co"),
+                    unicode_extension_key!("co"),
                     <&UnvalidatedStr>::from("zh-Hant"),
                     <&UnvalidatedStr>::from("stroke"),
                 ),
@@ -142,7 +140,7 @@ fn locale_to_file_name(locale: &DataLocale, has_legacy_swedish_variants: bool) -
             .replace('-', "_")
             .replace("posix", "POSIX")
     };
-    if let Some(extension) = &locale.get_unicode_ext(&key!("co")) {
+    if let Some(extension) = &locale.get_unicode_ext(&unicode_extension_key!("co")) {
         s.push('_');
         s.push_str(match extension.to_string().as_str() {
             "trad" => "traditional",

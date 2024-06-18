@@ -109,7 +109,6 @@ impl IterableDataProvider<UnitsInfoV1Marker> for DatagenProvider {
 #[test]
 fn test_basic() {
     use icu_experimental::units::provider::*;
-    use icu_locid::langid;
     use icu_provider::prelude::*;
     use num_bigint::BigUint;
     use num_rational::Ratio;

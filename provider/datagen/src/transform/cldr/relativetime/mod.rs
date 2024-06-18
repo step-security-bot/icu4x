@@ -185,7 +185,6 @@ make_data_provider!(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use icu_locid::langid;
 
     #[test]
     fn test_basic() {

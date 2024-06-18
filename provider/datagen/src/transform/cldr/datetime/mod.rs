@@ -6,7 +6,6 @@ use crate::provider::transform::cldr::cldr_serde;
 use crate::provider::DatagenProvider;
 use crate::provider::IterableDataProviderInternal;
 use icu_datetime::provider::calendar::*;
-use icu_locid::extensions::unicode::{key, value};
 use icu_provider::prelude::*;
 use once_cell::sync::OnceCell;
 use std::collections::HashMap;
@@ -20,28 +19,28 @@ mod symbols;
 pub(in crate::provider) mod week_data;
 
 pub(in crate::provider) static SUPPORTED_CALS: OnceCell<
-    HashMap<icu_locid::extensions::unicode::Value, &'static str>,
+    HashMap<UnicodeExtensionValue, &'static str>,
 > = OnceCell::new();
 
-fn supported_cals() -> &'static HashMap<icu_locid::extensions::unicode::Value, &'static str> {
+fn supported_cals() -> &'static HashMap<UnicodeExtensionValue, &'static str> {
     SUPPORTED_CALS.get_or_init(|| {
         [
-            (value!("buddhist"), "buddhist"),
-            (value!("chinese"), "chinese"),
-            (value!("coptic"), "coptic"),
-            (value!("dangi"), "dangi"),
-            (value!("ethiopic"), "ethiopic"),
-            (value!("gregory"), "gregorian"),
-            (value!("hebrew"), "hebrew"),
-            (value!("indian"), "indian"),
-            (value!("islamic"), "islamic"),
-            (value!("islamicc"), "islamic"),
-            (value!("japanese"), "japanese"),
-            (value!("japanext"), "japanese"),
-            (value!("persian"), "persian"),
-            (value!("roc"), "roc"),
-            (value!("tbla"), "islamic"),
-            (value!("umalqura"), "islamic"),
+            (unicode_extension_value!("buddhist"), "buddhist"),
+            (unicode_extension_value!("chinese"), "chinese"),
+            (unicode_extension_value!("coptic"), "coptic"),
+            (unicode_extension_value!("dangi"), "dangi"),
+            (unicode_extension_value!("ethiopic"), "ethiopic"),
+            (unicode_extension_value!("gregory"), "gregorian"),
+            (unicode_extension_value!("hebrew"), "hebrew"),
+            (unicode_extension_value!("indian"), "indian"),
+            (unicode_extension_value!("islamic"), "islamic"),
+            (unicode_extension_value!("islamicc"), "islamic"),
+            (unicode_extension_value!("japanese"), "japanese"),
+            (unicode_extension_value!("japanext"), "japanese"),
+            (unicode_extension_value!("persian"), "persian"),
+            (unicode_extension_value!("roc"), "roc"),
+            (unicode_extension_value!("tbla"), "islamic"),
+            (unicode_extension_value!("umalqura"), "islamic"),
         ]
         .into_iter()
         .collect()
@@ -58,10 +57,10 @@ macro_rules! impl_data_provider {
 
                 let calendar = if DateSkeletonPatternsV1Marker::KEY == $marker::KEY {
                     req.locale
-                        .get_unicode_ext(&key!("ca"))
+                        .get_unicode_ext(&unicode_extension_key!("ca"))
                         .ok_or_else(|| DataErrorKind::NeedsLocale.into_error())?
                 } else {
-                    value!($calendar)
+                    unicode_extension_value!($calendar)
                 };
 
                 let cldr_cal = supported_cals()
@@ -85,7 +84,7 @@ macro_rules! impl_data_provider {
                 // CLDR treats ethiopian and ethioaa as separate calendars; however we treat them as a single resource key that
                 // supports symbols for both era patterns based on the settings on the date. Load in ethioaa data as well when dealing with
                 // ethiopian.
-                if calendar == value!("ethiopic") {
+                if calendar == unicode_extension_value!("ethiopic") {
                     let ethioaa: &cldr_serde::ca::Resource = self
                         .cldr()?
                         .dates("ethiopic")
@@ -120,10 +119,12 @@ macro_rules! impl_data_provider {
                     eras.narrow.insert("2".to_string(), mundi_narrow.clone());
                 }
 
-                if calendar == value!("japanese") || calendar == value!("japanext") {
+                if calendar == unicode_extension_value!("japanese")
+                    || calendar == unicode_extension_value!("japanext")
+                {
                     let eras = data.eras.as_mut().expect("japanese must have eras");
                     // Filter out non-modern eras
-                    if calendar != value!("japanext") {
+                    if calendar != unicode_extension_value!("japanext") {
                         let modern_japanese_eras = self.cldr()?.modern_japanese_eras()?;
                         eras.names.retain(|e, _| modern_japanese_eras.contains(e));
                         eras.abbr.retain(|e, _| modern_japanese_eras.contains(e));
@@ -215,25 +216,26 @@ macro_rules! impl_data_provider {
                     for (cal_value, cldr_cal) in supported_cals() {
                         r.extend(self.cldr()?.dates(cldr_cal).list_langs()?.map(|lid| {
                             let mut locale = DataLocale::from(lid);
-                            locale.set_unicode_ext(key!("ca"), cal_value.clone());
+                            locale.set_unicode_ext(unicode_extension_key!("ca"), cal_value.clone());
                             locale
                         }));
                     }
                 } else {
                     let cldr_cal = supported_cals()
-                        .get(&value!($calendar))
+                        .get(&unicode_extension_value!($calendar))
                         .ok_or_else(|| DataErrorKind::MissingLocale.into_error())?;
-                    r.extend(self.cldr()?.dates(cldr_cal).list_langs()?.map(|lid| {
-                        let locale: Locale = lid.into();
-                        DataLocale::from(locale)
-                    }));
+                    r.extend(
+                        self.cldr()?
+                            .dates(cldr_cal)
+                            .list_langs()?
+                            .map(DataLocale::from),
+                    );
                 }
 
                 // TODO(#3212): Remove
                 if $marker::KEY == TimeLengthsV1Marker::KEY {
                     r.retain(|l| {
-                        l.get_langid() != icu_locid::langid!("byn")
-                            && l.get_langid() != icu_locid::langid!("ssy")
+                        l.get_langid() != langid!("byn") && l.get_langid() != langid!("ssy")
                     });
                 }
 
@@ -374,7 +376,6 @@ impl_data_provider!(
 #[cfg(test)]
 mod test {
     use super::*;
-    use icu_locid::langid;
 
     #[test]
     fn test_basic_patterns() {
