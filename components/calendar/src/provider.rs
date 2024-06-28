@@ -269,9 +269,7 @@ impl databake::Bake for WeekdaySet {
 
 #[cfg(feature = "datagen")]
 impl serde::Serialize for WeekdaySet {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             crate::week_of::WeekdaySetIterator::new(IsoWeekday::Monday, *self)
                 .collect::<alloc::vec::Vec<_>>()

@@ -374,9 +374,9 @@ impl LineSegmenter {
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_auto)]
     #[cfg(feature = "auto")]
-    pub fn try_new_auto_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_auto_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<LineBreakDataV1Marker>
+        P: DataProvider<LineBreakDataV1Marker>
             + DataProvider<LstmForWordLineAutoV1Marker>
             + DataProvider<GraphemeClusterBreakDataV1Marker>
             + ?Sized,
@@ -415,9 +415,9 @@ impl LineSegmenter {
 
     #[cfg(feature = "lstm")]
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_lstm)]
-    pub fn try_new_lstm_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_lstm_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<LineBreakDataV1Marker>
+        P: DataProvider<LineBreakDataV1Marker>
             + DataProvider<LstmForWordLineAutoV1Marker>
             + DataProvider<GraphemeClusterBreakDataV1Marker>
             + ?Sized,
@@ -453,9 +453,9 @@ impl LineSegmenter {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_dictionary)]
-    pub fn try_new_dictionary_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_dictionary_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<LineBreakDataV1Marker>
+        P: DataProvider<LineBreakDataV1Marker>
             + DataProvider<DictionaryForWordLineExtendedV1Marker>
             + DataProvider<GraphemeClusterBreakDataV1Marker>
             + ?Sized,
@@ -493,12 +493,12 @@ impl LineSegmenter {
 
     #[cfg(feature = "auto")]
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_auto_with_options)]
-    pub fn try_new_auto_with_options_unstable<D>(
-        provider: &D,
+    pub fn try_new_auto_with_options_unstable<P>(
+        provider: &P,
         options: LineBreakOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<LineBreakDataV1Marker>
+        P: DataProvider<LineBreakDataV1Marker>
             + DataProvider<LstmForWordLineAutoV1Marker>
             + DataProvider<GraphemeClusterBreakDataV1Marker>
             + ?Sized,
@@ -543,12 +543,12 @@ impl LineSegmenter {
 
     #[cfg(feature = "lstm")]
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_lstm_with_options)]
-    pub fn try_new_lstm_with_options_unstable<D>(
-        provider: &D,
+    pub fn try_new_lstm_with_options_unstable<P>(
+        provider: &P,
         options: LineBreakOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<LineBreakDataV1Marker>
+        P: DataProvider<LineBreakDataV1Marker>
             + DataProvider<LstmForWordLineAutoV1Marker>
             + DataProvider<GraphemeClusterBreakDataV1Marker>
             + ?Sized,
@@ -556,7 +556,7 @@ impl LineSegmenter {
         Ok(Self {
             options,
             payload: provider.load(Default::default())?.payload,
-            complex: ComplexPayloads::try_new_lstm(provider)?,
+            complex: ComplexPayloads::try_new_lstm_unstable(provider)?,
         })
     }
 
@@ -600,12 +600,12 @@ impl LineSegmenter {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_dictionary_with_options)]
-    pub fn try_new_dictionary_with_options_unstable<D>(
-        provider: &D,
+    pub fn try_new_dictionary_with_options_unstable<P>(
+        provider: &P,
         options: LineBreakOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<LineBreakDataV1Marker>
+        P: DataProvider<LineBreakDataV1Marker>
             + DataProvider<DictionaryForWordLineExtendedV1Marker>
             + DataProvider<GraphemeClusterBreakDataV1Marker>
             + ?Sized,
@@ -619,7 +619,7 @@ impl LineSegmenter {
             //
             // [1]: https://www.unicode.org/reports/tr14/#ID
             // [2]: https://www.unicode.org/reports/tr14/#SA
-            complex: ComplexPayloads::try_new_southeast_asian(provider)?,
+            complex: ComplexPayloads::try_new_southeast_asian_unstable(provider)?,
         })
     }
 

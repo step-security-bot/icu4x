@@ -103,13 +103,13 @@ impl Collator {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: CollatorOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<CollationSpecialPrimariesV1Marker>
+        P: DataProvider<CollationSpecialPrimariesV1Marker>
             + DataProvider<CollationDataV1Marker>
             + DataProvider<CollationDiacriticsV1Marker>
             + DataProvider<CollationJamoV1Marker>
@@ -130,8 +130,8 @@ impl Collator {
         )
     }
 
-    fn try_new_unstable_internal<D>(
-        provider: &D,
+    fn try_new_unstable_internal<P>(
+        provider: &P,
         decompositions: DataPayload<CanonicalDecompositionDataV1Marker>,
         tables: DataPayload<CanonicalDecompositionTablesV1Marker>,
         jamo: DataPayload<CollationJamoV1Marker>,
@@ -143,7 +143,7 @@ impl Collator {
         options: CollatorOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<CollationDataV1Marker>
+        P: DataProvider<CollationDataV1Marker>
             + DataProvider<CollationDiacriticsV1Marker>
             + DataProvider<CollationMetadataV1Marker>
             + DataProvider<CollationReorderingV1Marker>

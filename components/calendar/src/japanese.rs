@@ -139,9 +139,10 @@ impl Japanese {
     ]);
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D: DataProvider<JapaneseErasV1Marker> + ?Sized>(
-        provider: &D,
-    ) -> Result<Self, DataError> {
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
+    where
+        P: DataProvider<JapaneseErasV1Marker> + ?Sized,
+    {
         Ok(Self {
             eras: provider.load(Default::default())?.payload,
         })
@@ -196,9 +197,10 @@ impl JapaneseExtended {
     ]);
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D: DataProvider<JapaneseExtendedErasV1Marker> + ?Sized>(
-        provider: &D,
-    ) -> Result<Self, DataError> {
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
+    where
+        P: DataProvider<JapaneseExtendedErasV1Marker> + ?Sized,
+    {
         Ok(Self(Japanese {
             eras: provider.load(Default::default())?.payload.cast(),
         }))

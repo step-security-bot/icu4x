@@ -139,9 +139,9 @@ pub struct GeneralCategoryData {
 
 impl GeneralCategoryData {
     /// Construct a new [`GeneralCategoryData`] from a data provider.
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<GeneralCategoryV1Marker> + ?Sized,
+        P: DataProvider<GeneralCategoryV1Marker> + ?Sized,
     {
         let gc = maps::load_general_category(provider)?;
 
@@ -217,9 +217,9 @@ pub struct CombiningClassData {
 
 impl CombiningClassData {
     /// Construct a new [`CombiningClassData`] from a data provider.
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker> + ?Sized,
+        P: DataProvider<CanonicalDecompositionDataV1Marker> + ?Sized,
     {
         let ccc = CanonicalCombiningClassMap::try_new_unstable(provider)?;
 
@@ -258,9 +258,9 @@ pub struct MirroringData {
 
 impl MirroringData {
     /// Construct a new [`MirroringData`] from a data provider.
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<BidiAuxiliaryPropertiesV1Marker> + ?Sized,
+        P: DataProvider<BidiAuxiliaryPropertiesV1Marker> + ?Sized,
     {
         let bidi = bidi_data::load_bidi_auxiliary_properties_unstable(provider)?;
 
@@ -304,9 +304,9 @@ pub struct ScriptData {
 
 impl ScriptData {
     /// Construct a new [`ScriptData`] from a data provider.
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<ScriptValueToShortNameV1Marker> + DataProvider<ScriptV1Marker> + ?Sized,
+        P: DataProvider<ScriptValueToShortNameV1Marker> + DataProvider<ScriptV1Marker> + ?Sized,
     {
         let script = maps::load_script(provider)?;
         let script_name = Script::get_enum_to_short_name_mapper(provider)?;
@@ -354,9 +354,9 @@ pub struct ComposeData {
 
 impl ComposeData {
     /// Construct a new [`ComposeData`] from a data provider.
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalCompositionsV1Marker> + ?Sized,
+        P: DataProvider<CanonicalCompositionsV1Marker> + ?Sized,
     {
         let comp = CanonicalComposition::try_new_unstable(provider)?;
 
@@ -395,9 +395,9 @@ pub struct DecomposeData {
 
 impl DecomposeData {
     /// Construct a new [`DecomposeData`] from a data provider.
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<NonRecursiveDecompositionSupplementV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + ?Sized,

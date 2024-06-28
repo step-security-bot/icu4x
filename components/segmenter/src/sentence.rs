@@ -135,9 +135,9 @@ impl SentenceSegmenter {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<SentenceBreakDataV1Marker> + ?Sized,
+        P: DataProvider<SentenceBreakDataV1Marker> + ?Sized,
     {
         let payload = provider.load(Default::default())?.payload;
         Ok(Self { payload })

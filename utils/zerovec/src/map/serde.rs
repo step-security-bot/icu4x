@@ -18,9 +18,7 @@ where
     K::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             // Many human-readable formats don't support values other
             // than numbers and strings as map keys. For them, we can serialize
@@ -57,9 +55,7 @@ where
     K::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         ZeroMap::<K, V>::from(*self).serialize(serializer)
     }
 }

@@ -131,11 +131,14 @@ impl FixedDecimalFormatter {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D: DataProvider<provider::DecimalSymbolsV1Marker> + ?Sized>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: options::FixedDecimalFormatterOptions,
-    ) -> Result<Self, DataError> {
+    ) -> Result<Self, DataError>
+    where
+        P: DataProvider<provider::DecimalSymbolsV1Marker> + ?Sized,
+    {
         let symbols = provider
             .load(DataRequest {
                 id: DataIdentifierBorrowed::for_locale(locale),

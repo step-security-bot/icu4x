@@ -153,13 +153,13 @@ impl CompactDecimalFormatter {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new_short)]
-    pub fn try_new_short_unstable<D>(
-        provider: &D,
+    pub fn try_new_short_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: CompactDecimalFormatterOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<ShortCompactDecimalFormatDataV1Marker>
+        P: DataProvider<ShortCompactDecimalFormatDataV1Marker>
             + DataProvider<icu_decimal::provider::DecimalSymbolsV1Marker>
             + DataProvider<icu_plurals::provider::CardinalV1Marker>
             + ?Sized,
@@ -237,13 +237,13 @@ impl CompactDecimalFormatter {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new_long)]
-    pub fn try_new_long_unstable<D>(
-        provider: &D,
+    pub fn try_new_long_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: CompactDecimalFormatterOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<LongCompactDecimalFormatDataV1Marker>
+        P: DataProvider<LongCompactDecimalFormatDataV1Marker>
             + DataProvider<icu_decimal::provider::DecimalSymbolsV1Marker>
             + DataProvider<icu_plurals::provider::CardinalV1Marker>
             + ?Sized,

@@ -137,9 +137,10 @@ impl IslamicObservational {
     ]);
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D: DataProvider<IslamicObservationalCacheV1Marker> + ?Sized>(
-        provider: &D,
-    ) -> Result<Self, DataError> {
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
+    where
+        P: DataProvider<IslamicObservationalCacheV1Marker> + ?Sized,
+    {
         Ok(Self {
             data: Some(provider.load(Default::default())?.payload),
         })
@@ -183,9 +184,10 @@ impl IslamicUmmAlQura {
     ]);
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D: DataProvider<IslamicUmmAlQuraCacheV1Marker> + ?Sized>(
-        provider: &D,
-    ) -> Result<Self, DataError> {
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
+    where
+        P: DataProvider<IslamicUmmAlQuraCacheV1Marker> + ?Sized,
+    {
         Ok(Self {
             data: Some(provider.load(Default::default())?.payload),
         })

@@ -159,9 +159,7 @@ unsafe impl VarULE for UnvalidatedStr {
 /// This impl requires enabling the optional `serde` Cargo feature of the `zerovec` crate
 #[cfg(feature = "serde")]
 impl serde::Serialize for UnvalidatedStr {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         use serde::ser::Error;
         let s = self
             .try_as_str()
@@ -394,9 +392,7 @@ impl TryFrom<UnvalidatedChar> for char {
 /// This impl requires enabling the optional `serde` Cargo feature of the `zerovec` crate
 #[cfg(feature = "serde")]
 impl serde::Serialize for UnvalidatedChar {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         use serde::ser::Error;
         let c = self
             .try_to_char()

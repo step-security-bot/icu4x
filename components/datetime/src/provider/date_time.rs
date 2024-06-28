@@ -107,16 +107,16 @@ fn pattern_for_date_length_inner(data: DateLengthsV1, length: length::Date) -> P
 /// Determine the appropriate `Pattern` for a given `options::length::Time` bag.
 /// If a preference for an hour cycle is set, it will look look up a pattern in the `time_h11_12` or
 /// `time_h23_h24` provider data, and then manually modify the symbol in the pattern if needed.
-pub(crate) fn pattern_for_time_length<'a, D>(
-    data_provider: &'a D,
+pub(crate) fn pattern_for_time_length<'a, P>(
+    provider: &'a P,
     locale: &'a DataLocale,
     length: length::Time,
     preferences: Option<preferences::Bag>,
 ) -> Result<DataPayload<PatternPluralsFromPatternsV1Marker>, DataError>
 where
-    D: DataProvider<TimeLengthsV1Marker> + ?Sized,
+    P: DataProvider<TimeLengthsV1Marker> + ?Sized,
 {
-    Ok(data_provider
+    Ok(provider
         .load(DataRequest {
             id: DataIdentifierBorrowed::for_locale(locale),
             ..Default::default()
@@ -155,8 +155,8 @@ pub(crate) fn generic_pattern_for_date_length(
 /// to be stable, their Rust representation might not be. Use with caution.
 /// </div>
 #[derive(Clone)]
-pub struct PatternSelector<'a, D: ?Sized> {
-    data_provider: &'a D,
+pub struct PatternSelector<'a, P: ?Sized> {
+    provider: &'a P,
     date_patterns_data: DataPayload<ErasedDateLengthsV1Marker>,
     locale: &'a DataLocale,
     #[allow(dead_code)] // non-experimental mode
@@ -168,18 +168,18 @@ pub(crate) enum PatternForLengthError {
     Data(DataError),
 }
 
-impl<D> PatternSelector<'_, D>
+impl<P> PatternSelector<'_, P>
 where
-    D: DataProvider<TimeLengthsV1Marker> + ?Sized,
+    P: DataProvider<TimeLengthsV1Marker> + ?Sized,
 {
     pub(crate) fn for_options<'a>(
-        data_provider: &'a D,
+        provider: &'a P,
         date_patterns_data: DataPayload<ErasedDateLengthsV1Marker>,
         locale: &'a DataLocale,
         options: &DateTimeFormatterOptions,
     ) -> Result<DataPayload<PatternPluralsFromPatternsV1Marker>, PatternForLengthError> {
         let selector = PatternSelector {
-            data_provider,
+            provider,
             date_patterns_data,
             locale,
             cal_val: None,
@@ -204,7 +204,7 @@ where
                 PatternPlurals::default(),
             ))),
             (None, Some(time_length)) => {
-                pattern_for_time_length(self.data_provider, self.locale, time_length, preferences)
+                pattern_for_time_length(self.provider, self.locale, time_length, preferences)
                     .map_err(PatternForLengthError::Data)
             }
             (Some(date_length), None) => Ok(pattern_for_date_length(
@@ -226,7 +226,7 @@ where
         preferences: Option<preferences::Bag>,
     ) -> Result<DataPayload<PatternPluralsFromPatternsV1Marker>, PatternForLengthError> {
         let time_patterns_data = self
-            .data_provider
+            .provider
             .load(DataRequest {
                 id: DataIdentifierBorrowed::for_locale(self.locale),
                 ..Default::default()
@@ -264,12 +264,12 @@ where
 }
 
 #[cfg(feature = "experimental")]
-impl<D> PatternSelector<'_, D>
+impl<P> PatternSelector<'_, P>
 where
-    D: DataProvider<TimeLengthsV1Marker> + DataProvider<DateSkeletonPatternsV1Marker> + ?Sized,
+    P: DataProvider<TimeLengthsV1Marker> + DataProvider<DateSkeletonPatternsV1Marker> + ?Sized,
 {
     pub(crate) fn for_options_experimental<'a>(
-        data_provider: &'a D,
+        provider: &'a P,
         date_patterns_data: DataPayload<ErasedDateLengthsV1Marker>,
         locale: &'a DataLocale,
         cal_val: &'a Value,
@@ -279,7 +279,7 @@ where
         UnsupportedOptionsOrDataOrPatternError,
     > {
         let selector = PatternSelector {
-            data_provider,
+            provider,
             date_patterns_data,
             locale,
             cal_val: Some(cal_val),
@@ -364,7 +364,7 @@ where
             locale.set_unicode_ext(key!("ca"), cal_val.clone());
         };
 
-        self.data_provider
+        self.provider
             .load(DataRequest {
                 id: DataIdentifierBorrowed::for_locale(&locale),
                 ..Default::default()

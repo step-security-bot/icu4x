@@ -140,9 +140,7 @@ impl core::fmt::Display for UnicodeCodePoint {
 
 #[cfg(feature = "serde")]
 impl<'data> serde::Serialize for CodePointInversionList<'data> {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             use serde::ser::Error;
             use serde::ser::SerializeSeq;

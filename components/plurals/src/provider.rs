@@ -218,9 +218,7 @@ mod ranges {
 
     #[cfg(feature = "datagen")]
     impl serde::Serialize for UnvalidatedPluralRange {
-        fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        
-        {
+        fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
             use serde::ser::Error;
 
             struct PrettyPrinter(RawPluralCategory, RawPluralCategory);

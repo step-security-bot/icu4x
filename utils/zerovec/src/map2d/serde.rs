@@ -23,9 +23,7 @@ where
     K1::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             let mut serde_map = serializer.serialize_map(None)?;
             for cursor in self.iter0() {
@@ -61,9 +59,7 @@ where
     K1::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         let mut serde_map = serializer.serialize_map(None)?;
         for (key1, v) in self.cursor.iter1() {
             K1::Container::zvl_get_as_t(key1, |k| serde_map.serialize_key(k))?;
@@ -84,9 +80,7 @@ where
     K1::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         ZeroMap2d::<K0, K1, V>::from(*self).serialize(serializer)
     }
 }

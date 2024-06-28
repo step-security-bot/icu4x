@@ -80,14 +80,14 @@ impl TimeFormatter {
     }
 
     #[inline(never)]
-    pub fn try_new_unstable<D>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         length: length::Time,
         preferences: Option<preferences::Bag>,
     ) -> Result<Self, DateTimeError>
     where
-        D: DataProvider<TimeLengthsV1Marker>
+        P: DataProvider<TimeLengthsV1Marker>
             + DataProvider<TimeSymbolsV1Marker>
             + DataProvider<DecimalSymbolsV1Marker>
             + ?Sized,
@@ -217,15 +217,15 @@ impl DateFormatter {
     }
 
     #[inline(never)]
-    pub fn try_new_unstable<D>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         patterns_data: DataPayload<ErasedDateLengthsV1Marker>,
         symbols_data_fn: impl FnOnce() -> Result<DataPayload<ErasedDateSymbolsV1Marker>, DataError>,
         locale: &DataLocale,
         length: length::Date,
     ) -> Result<Self, DateTimeError>
     where
-        D: DataProvider<DecimalSymbolsV1Marker>
+        P: DataProvider<DecimalSymbolsV1Marker>
             + DataProvider<OrdinalV1Marker>
             + DataProvider<WeekDataV1Marker>
             + ?Sized,
@@ -432,14 +432,14 @@ impl DateTimeFormatter {
     }
 
     #[inline(never)]
-    pub fn try_new_unstable<D>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         patterns: DataPayload<PatternPluralsFromPatternsV1Marker>,
         symbols_data_fn: impl FnOnce() -> Result<DataPayload<ErasedDateSymbolsV1Marker>, DataError>,
         locale: &DataLocale,
     ) -> Result<Self, DateTimeError>
     where
-        D: DataProvider<TimeSymbolsV1Marker>
+        P: DataProvider<TimeSymbolsV1Marker>
             + DataProvider<TimeLengthsV1Marker>
             + DataProvider<DecimalSymbolsV1Marker>
             + DataProvider<OrdinalV1Marker>

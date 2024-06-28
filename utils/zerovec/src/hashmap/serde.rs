@@ -17,9 +17,7 @@ where
     K::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         (&self.displacements, &self.keys, &self.values).serialize(serializer)
     }
 }

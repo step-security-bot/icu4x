@@ -254,9 +254,9 @@ impl AsULE for PackedChineseBasedYearInfo {
 mod serialization {
     use super::*;
 
-    #[cfg(feature = "datagen")]
-    use serde::{Serializer, Serialize};
     use serde::{Deserialize, Deserializer};
+    #[cfg(feature = "datagen")]
+    use serde::{Serialize, Serializer};
 
     #[derive(Deserialize)]
     #[cfg_attr(feature = "datagen", derive(Serialize))]
@@ -282,9 +282,7 @@ mod serialization {
 
     #[cfg(feature = "datagen")]
     impl Serialize for PackedChineseBasedYearInfo {
-        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        
-        {
+        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
             if serializer.is_human_readable() {
                 SerdePackedChineseBasedYearInfo::from(*self).serialize(serializer)
             } else {

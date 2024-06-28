@@ -68,7 +68,7 @@ impl DynamicDataMarker for BufferMarker {
 /// );
 ///
 /// // Deserialize automatically
-/// let deserializing_provider: &dyn DataProvider<HelloWorldV1Marker> =
+/// let deserializing_provider: &Pyn DataProvider<HelloWorldV1Marker> =
 ///     &buffer_provider.as_deserializing();
 ///
 /// assert_eq!(

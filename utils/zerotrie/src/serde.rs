@@ -76,9 +76,7 @@ where
 }
 
 impl<'data> Serialize for &'data ByteStr {
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         let bytes = self.as_bytes();
         if serializer.is_human_readable() {
             match core::str::from_utf8(bytes) {
@@ -126,9 +124,7 @@ impl<Store> Serialize for ZeroTrieSimpleAscii<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
             lm.serialize(serializer)
@@ -174,9 +170,7 @@ impl<Store> Serialize for ZeroAsciiIgnoreCaseTrie<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
             lm.serialize(serializer)
@@ -218,9 +212,7 @@ impl<Store> Serialize for ZeroTriePerfectHash<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
             let lm = lm
@@ -266,9 +258,7 @@ impl<Store> Serialize for ZeroTrieExtendedCapacity<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
             let lm = lm
@@ -325,9 +315,7 @@ impl<Store> Serialize for ZeroTrie<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
             let lm = lm

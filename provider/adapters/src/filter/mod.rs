@@ -82,11 +82,11 @@ where
     }
 }
 
-impl<D, F, M> DataProvider<M> for RequestFilterDataProvider<D, F>
+impl<P, F, M> DataProvider<M> for RequestFilterDataProvider<P, F>
 where
     F: Fn(DataRequest) -> bool,
     M: DataMarker,
-    D: DataProvider<M>,
+    P: DataProvider<M>,
 {
     fn load(&self, req: DataRequest) -> Result<DataResponse<M>, DataError> {
         if (self.predicate)(req) {
@@ -99,10 +99,10 @@ where
     }
 }
 
-impl<D, F> AnyProvider for RequestFilterDataProvider<D, F>
+impl<P, F> AnyProvider for RequestFilterDataProvider<P, F>
 where
     F: Fn(DataRequest) -> bool,
-    D: AnyProvider,
+    P: AnyProvider,
 {
     fn load_any(&self, marker: DataMarkerInfo, req: DataRequest) -> Result<AnyResponse, DataError> {
         if (self.predicate)(req) {
@@ -141,11 +141,11 @@ where
 }
 
 #[cfg(feature = "std")]
-impl<M, D, F> IterableDataProvider<M> for RequestFilterDataProvider<D, F>
+impl<M, P, F> IterableDataProvider<M> for RequestFilterDataProvider<P, F>
 where
     M: DataMarker,
     F: Fn(DataRequest) -> bool,
-    D: IterableDataProvider<M>,
+    P: IterableDataProvider<M>,
 {
     fn iter_ids(&self) -> Result<std::collections::HashSet<DataIdentifierCow>, DataError> {
         self.inner.iter_ids().map(|vec| {

@@ -56,11 +56,14 @@ impl RegionDisplayNames {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D: DataProvider<RegionDisplayNamesV1Marker> + ?Sized>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: DisplayNamesOptions,
-    ) -> Result<Self, DataError> {
+    ) -> Result<Self, DataError>
+    where
+        P: DataProvider<RegionDisplayNamesV1Marker> + ?Sized,
+    {
         let region_data = provider
             .load(DataRequest {
                 id: DataIdentifierBorrowed::for_locale(locale),
@@ -129,11 +132,14 @@ impl ScriptDisplayNames {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D: DataProvider<ScriptDisplayNamesV1Marker> + ?Sized>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: DisplayNamesOptions,
-    ) -> Result<Self, DataError> {
+    ) -> Result<Self, DataError>
+    where
+        P: DataProvider<ScriptDisplayNamesV1Marker> + ?Sized,
+    {
         let script_data = provider
             .load(DataRequest {
                 id: DataIdentifierBorrowed::for_locale(locale),
@@ -203,11 +209,14 @@ impl VariantDisplayNames {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D: DataProvider<VariantDisplayNamesV1Marker> + ?Sized>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: DisplayNamesOptions,
-    ) -> Result<Self, DataError> {
+    ) -> Result<Self, DataError>
+    where
+        P: DataProvider<VariantDisplayNamesV1Marker> + ?Sized,
+    {
         let variant_data = provider
             .load(DataRequest {
                 id: DataIdentifierBorrowed::for_locale(locale),
@@ -270,11 +279,14 @@ impl LanguageDisplayNames {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D: DataProvider<LanguageDisplayNamesV1Marker> + ?Sized>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: DisplayNamesOptions,
-    ) -> Result<Self, DataError> {
+    ) -> Result<Self, DataError>
+    where
+        P: DataProvider<LanguageDisplayNamesV1Marker> + ?Sized,
+    {
         let language_data = provider
             .load(DataRequest {
                 id: DataIdentifierBorrowed::for_locale(locale),
@@ -362,13 +374,13 @@ impl LocaleDisplayNamesFormatter {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: DisplayNamesOptions,
     ) -> Result<Self, DataError>
     where
-        D: DataProvider<LocaleDisplayNamesV1Marker>
+        P: DataProvider<LocaleDisplayNamesV1Marker>
             + DataProvider<LanguageDisplayNamesV1Marker>
             + DataProvider<ScriptDisplayNamesV1Marker>
             + DataProvider<RegionDisplayNamesV1Marker>

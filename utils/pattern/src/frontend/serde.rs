@@ -57,9 +57,7 @@ where
     for<'a> B::PlaceholderKeyCow<'a>: Serialize + From<B::PlaceholderKey<'a>>,
     Store: AsRef<B::Store>,
 {
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             let pattern_items: HumanReadablePattern<B> = B::iter_items(self.store.as_ref())
                 .map(|x| x.into())

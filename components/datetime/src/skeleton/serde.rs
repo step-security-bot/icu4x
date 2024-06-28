@@ -11,7 +11,7 @@ pub mod reference {
     use crate::skeleton::reference::Skeleton;
 
     #[cfg(feature = "datagen")]
-    use ::serde::{Serializer, Serialize};
+    use ::serde::{Serialize, Serializer};
     use serde::{de, Deserialize, Deserializer};
     /// This is an implementation of the serde deserialization visitor pattern.
     #[allow(clippy::upper_case_acronyms)]
@@ -58,9 +58,7 @@ pub mod reference {
 
     #[cfg(feature = "datagen")]
     impl Serialize for Skeleton {
-        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        
-        {
+        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
             if serializer.is_human_readable() {
                 // Serialize into the UTS 35 string representation.
                 let string = self.to_string();
@@ -77,7 +75,7 @@ pub mod runtime {
     use zerovec::ZeroVec;
 
     #[cfg(feature = "datagen")]
-    use ::serde::{Serializer, Serialize};
+    use ::serde::{Serialize, Serializer};
     use serde::{de, Deserialize, Deserializer};
     /// This is an implementation of the serde deserialization visitor pattern.
     #[allow(clippy::upper_case_acronyms)]
@@ -117,9 +115,7 @@ pub mod runtime {
 
     #[cfg(feature = "datagen")]
     impl Serialize for Skeleton<'_> {
-        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        
-        {
+        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
             if serializer.is_human_readable() {
                 // Serialize into the UTS 35 string representation.
                 let string = self.to_string();

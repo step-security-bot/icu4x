@@ -79,15 +79,15 @@ impl CurrencyFormatter {
     }
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: super::options::CurrencyFormatterOptions,
     ) -> Result<Self, DataError>
     where
-        D: ?Sized
-            + DataProvider<super::super::provider::currency::CurrencyEssentialsV1Marker>
-            + DataProvider<icu_decimal::provider::DecimalSymbolsV1Marker>,
+        P: DataProvider<super::super::provider::currency::CurrencyEssentialsV1Marker>
+            + DataProvider<icu_decimal::provider::DecimalSymbolsV1Marker>
+            + ?Sized,
     {
         let fixed_decimal_formatter = FixedDecimalFormatter::try_new_unstable(
             provider,

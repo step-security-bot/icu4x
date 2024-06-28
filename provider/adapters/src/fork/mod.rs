@@ -112,7 +112,7 @@ use predicates::MarkerNotFoundPredicate;
 ///         .filter_by_langid(|langid| langid.language == language!("de")),
 /// );
 ///
-/// let provider: &dyn DataProvider<HelloWorldV1Marker> =
+/// let provider: &Pyn DataProvider<HelloWorldV1Marker> =
 ///     &forking_provider.as_deserializing();
 ///
 /// // Chinese is the first provider, so this succeeds
@@ -181,7 +181,7 @@ impl<P0, P1> ForkByMarkerProvider<P0, P1> {
 ///     ],
 /// );
 ///
-/// let provider: &dyn DataProvider<HelloWorldV1Marker> =
+/// let provider: &Pyn DataProvider<HelloWorldV1Marker> =
 ///     &forking_provider.as_deserializing();
 ///
 /// // Chinese is the first provider, so this succeeds

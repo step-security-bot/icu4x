@@ -111,13 +111,13 @@ impl TimeFormatter {
 
     #[inline]
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new_with_length)]
-    pub fn try_new_with_length_unstable<D>(
-        provider: &D,
+    pub fn try_new_with_length_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         length: length::Time,
     ) -> Result<Self, DateTimeError>
     where
-        D: DataProvider<TimeLengthsV1Marker>
+        P: DataProvider<TimeLengthsV1Marker>
             + DataProvider<TimeSymbolsV1Marker>
             + DataProvider<DecimalSymbolsV1Marker>
             + ?Sized,
@@ -320,13 +320,13 @@ impl<C: CldrCalendar> TypedDateFormatter<C> {
 
     #[inline]
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new_with_length)]
-    pub fn try_new_with_length_unstable<D>(
-        provider: &D,
+    pub fn try_new_with_length_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         length: length::Date,
     ) -> Result<Self, DateTimeError>
     where
-        D: DataProvider<<C as CldrCalendar>::DateSymbolsV1Marker>
+        P: DataProvider<<C as CldrCalendar>::DateSymbolsV1Marker>
             + DataProvider<<C as CldrCalendar>::DateLengthsV1Marker>
             + DataProvider<DecimalSymbolsV1Marker>
             + DataProvider<OrdinalV1Marker>
@@ -571,13 +571,13 @@ where {
 
     #[inline]
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new)]
-    pub fn try_new_unstable<D>(
-        provider: &D,
+    pub fn try_new_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: DateTimeFormatterOptions,
     ) -> Result<Self, DateTimeError>
     where
-        D: DataProvider<<C as CldrCalendar>::DateSymbolsV1Marker>
+        P: DataProvider<<C as CldrCalendar>::DateSymbolsV1Marker>
             + DataProvider<<C as CldrCalendar>::DateLengthsV1Marker>
             + DataProvider<TimeSymbolsV1Marker>
             + DataProvider<TimeLengthsV1Marker>
@@ -688,13 +688,13 @@ where {
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::try_new_experimental)]
     #[cfg(feature = "experimental")]
     #[inline]
-    pub fn try_new_experimental_unstable<D>(
-        provider: &D,
+    pub fn try_new_experimental_unstable<P>(
+        provider: &P,
         locale: &DataLocale,
         options: DateTimeFormatterOptions,
     ) -> Result<Self, DateTimeError>
     where
-        D: DataProvider<<C as CldrCalendar>::DateSymbolsV1Marker>
+        P: DataProvider<<C as CldrCalendar>::DateSymbolsV1Marker>
             + DataProvider<<C as CldrCalendar>::DateLengthsV1Marker>
             + DataProvider<TimeSymbolsV1Marker>
             + DataProvider<TimeLengthsV1Marker>

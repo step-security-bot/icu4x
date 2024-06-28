@@ -14,9 +14,7 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 impl<const N: usize> Serialize for TinyAsciiStr<N> {
     #[inline]
-    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             self.deref().serialize(serializer)
         } else {

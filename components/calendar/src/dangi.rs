@@ -162,9 +162,10 @@ impl Dangi {
     ]);
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D: DataProvider<DangiCacheV1Marker> + ?Sized>(
-        provider: &D,
-    ) -> Result<Self, DataError> {
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
+    where
+        P: DataProvider<DangiCacheV1Marker> + ?Sized,
+    {
         Ok(Self {
             data: Some(provider.load(Default::default())?.payload),
         })

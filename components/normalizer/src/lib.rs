@@ -1614,9 +1614,9 @@ impl DecomposingNormalizer {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_nfd)]
-    pub fn try_new_nfd_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_nfd_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + ?Sized,
     {
@@ -1728,9 +1728,9 @@ impl DecomposingNormalizer {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_nfkd)]
-    pub fn try_new_nfkd_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_nfkd_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<CompatibilityDecompositionSupplementV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + DataProvider<CompatibilityDecompositionTablesV1Marker>
@@ -1866,9 +1866,9 @@ impl DecomposingNormalizer {
     /// Therefore, the output of this normalization may differ for different inputs that are
     /// canonically equivalent with each other if they differ by how U+0345 is ordered relative
     /// to other reorderable characters.
-    pub(crate) fn try_new_uts46_decomposed_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub(crate) fn try_new_uts46_decomposed_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<Uts46DecompositionSupplementV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + DataProvider<CompatibilityDecompositionTablesV1Marker>
@@ -2229,9 +2229,9 @@ impl ComposingNormalizer {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_nfc)]
-    pub fn try_new_nfc_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_nfc_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + DataProvider<CanonicalCompositionsV1Marker>
             + ?Sized,
@@ -2274,9 +2274,9 @@ impl ComposingNormalizer {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_nfkc)]
-    pub fn try_new_nfkc_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_nfkc_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<CompatibilityDecompositionSupplementV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + DataProvider<CompatibilityDecompositionTablesV1Marker>
@@ -2314,9 +2314,9 @@ impl ComposingNormalizer {
     }
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new_uts46)]
-    pub(crate) fn try_new_uts46_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub(crate) fn try_new_uts46_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<Uts46DecompositionSupplementV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + DataProvider<CompatibilityDecompositionTablesV1Marker>

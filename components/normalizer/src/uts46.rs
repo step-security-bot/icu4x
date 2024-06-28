@@ -52,9 +52,9 @@ impl Uts46Mapper {
 
     /// Construct with provider.
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<Uts46DecompositionSupplementV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + DataProvider<CompatibilityDecompositionTablesV1Marker>

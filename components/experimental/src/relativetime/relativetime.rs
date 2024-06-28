@@ -155,13 +155,13 @@ macro_rules! constructor {
 
 
         #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::$baked)]
-        pub fn $unstable<D>(
-            provider: &D,
+        pub fn $unstable<P>(
+            provider: &P,
             locale: &DataLocale,
             options: RelativeTimeFormatterOptions,
         ) -> Result<Self, DataError>
         where
-            D: DataProvider<CardinalV1Marker>
+            P: DataProvider<CardinalV1Marker>
                 + DataProvider<$marker>
                 + DataProvider<DecimalSymbolsV1Marker>
                 + ?Sized,

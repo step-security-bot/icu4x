@@ -52,8 +52,7 @@ impl databake::Bake for SerdeDFA<'_> {
 
 #[cfg(feature = "datagen")]
 impl serde::Serialize for SerdeDFA<'_> {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         if serializer.is_human_readable() {
             self.pattern
                 .as_ref()

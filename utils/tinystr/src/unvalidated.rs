@@ -56,9 +56,7 @@ impl<const N: usize> From<TinyAsciiStr<N>> for UnvalidatedTinyAsciiStr<N> {
 
 #[cfg(feature = "serde")]
 impl<const N: usize> serde::Serialize for UnvalidatedTinyAsciiStr<N> {
-    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
-
-    {
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         use serde::ser::Error;
         self.try_into_tinystr()
             .map_err(|_| S::Error::custom("invalid ascii in UnvalidatedTinyAsciiStr"))?

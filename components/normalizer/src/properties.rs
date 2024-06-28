@@ -108,9 +108,9 @@ impl CanonicalComposition {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalCompositionsV1Marker> + ?Sized,
+        P: DataProvider<CanonicalCompositionsV1Marker> + ?Sized,
     {
         let canonical_compositions: DataPayload<CanonicalCompositionsV1Marker> =
             provider.load(Default::default())?.payload;
@@ -399,9 +399,9 @@ impl CanonicalDecomposition {
     );
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker>
+        P: DataProvider<CanonicalDecompositionDataV1Marker>
             + DataProvider<CanonicalDecompositionTablesV1Marker>
             + DataProvider<NonRecursiveDecompositionSupplementV1Marker>
             + ?Sized,
@@ -505,9 +505,9 @@ impl CanonicalCombiningClassMap {
     ]);
 
     #[doc = icu_provider::gen_any_buffer_unstable_docs!(UNSTABLE, Self::new)]
-    pub fn try_new_unstable<D>(provider: &D) -> Result<Self, DataError>
+    pub fn try_new_unstable<P>(provider: &P) -> Result<Self, DataError>
     where
-        D: DataProvider<CanonicalDecompositionDataV1Marker> + ?Sized,
+        P: DataProvider<CanonicalDecompositionDataV1Marker> + ?Sized,
     {
         let decompositions: DataPayload<CanonicalDecompositionDataV1Marker> =
             provider.load(Default::default())?.payload;
