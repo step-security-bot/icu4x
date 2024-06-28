@@ -76,9 +76,8 @@ where
 }
 
 impl<'data> Serialize for &'data ByteStr {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         let bytes = self.as_bytes();
         if serializer.is_human_readable() {
@@ -127,9 +126,8 @@ impl<Store> Serialize for ZeroTrieSimpleAscii<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
@@ -176,9 +174,8 @@ impl<Store> Serialize for ZeroAsciiIgnoreCaseTrie<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
@@ -221,9 +218,8 @@ impl<Store> Serialize for ZeroTriePerfectHash<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
@@ -270,9 +266,8 @@ impl<Store> Serialize for ZeroTrieExtendedCapacity<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();
@@ -330,9 +325,8 @@ impl<Store> Serialize for ZeroTrie<Store>
 where
     Store: AsRef<[u8]>,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let lm = self.to_litemap();

@@ -218,7 +218,7 @@ pub fn make_varule_impl(ule_name: Ident, mut input: DeriveInput) -> TokenStream2
     let maybe_ser = if attrs.serialize {
         quote!(
             impl #serde_path::Serialize for #ule_name {
-                fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: #serde_path::Serializer {
+                fn serialize<S: #serde_path::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
                     let this = #zerofrom_fq_path::zero_from(self);
                     <#name as #serde_path::Serialize>::serialize(&this, serializer)
                 }

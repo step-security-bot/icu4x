@@ -17,10 +17,7 @@ pub struct CodePointTrieSerde<'trie, T: TrieValue> {
 }
 
 impl<'trie, T: TrieValue + Serialize> Serialize for CodePointTrie<'trie, T> {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         let ser = CodePointTrieSerde {
             header: self.header,
             index: ZeroFrom::zero_from(&self.index),

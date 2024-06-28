@@ -82,9 +82,8 @@ impl<T> Serialize for ZeroVec<'_, T>
 where
     T: Serialize + AsULE,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let mut seq = serializer.serialize_seq(Some(self.len()))?;
@@ -146,9 +145,8 @@ impl<T> Serialize for ZeroSlice<T>
 where
     T: Serialize + AsULE,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         self.as_zerovec().serialize(serializer)
     }

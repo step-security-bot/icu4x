@@ -218,9 +218,8 @@ mod ranges {
 
     #[cfg(feature = "datagen")]
     impl serde::Serialize for UnvalidatedPluralRange {
-        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: serde::Serializer,
+        fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+        
         {
             use serde::ser::Error;
 

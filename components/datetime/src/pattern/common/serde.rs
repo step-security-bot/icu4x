@@ -7,7 +7,7 @@ use ::serde::{de, Deserialize, Deserializer};
 use alloc::{fmt, format, vec::Vec};
 
 #[cfg(feature = "datagen")]
-use ::serde::{ser, Serialize};
+use ::serde::{Serialize, Serializer};
 
 mod reference {
     use super::*;
@@ -80,10 +80,7 @@ mod reference {
 
     #[cfg(feature = "datagen")]
     impl Serialize for Pattern {
-        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: ser::Serializer,
-        {
+        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
             if serializer.is_human_readable() {
                 serializer.serialize_str(&self.to_string())
             } else {
@@ -179,10 +176,7 @@ mod runtime {
 
     #[cfg(feature = "datagen")]
     impl Serialize for Pattern<'_> {
-        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: ser::Serializer,
-        {
+        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
             if serializer.is_human_readable() {
                 serializer.serialize_str(&self.to_string())
             } else {
@@ -303,10 +297,7 @@ mod runtime {
 
         #[cfg(feature = "datagen")]
         impl Serialize for PatternPlurals<'_> {
-            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-            where
-                S: ser::Serializer,
-            {
+            fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
                 if serializer.is_human_readable() {
                     // match self {
                     //     Self::SinglePattern(pattern) => serializer.serialize_newtype_variant("PatternPlurals", 0, "Single", pattern),
@@ -420,10 +411,7 @@ mod runtime {
 
         #[cfg(feature = "datagen")]
         impl Serialize for GenericPattern<'_> {
-            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-            where
-                S: ser::Serializer,
-            {
+            fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
                 if serializer.is_human_readable() {
                     // Serialize into the UTS 35 string representation.
                     let string = self.to_string();

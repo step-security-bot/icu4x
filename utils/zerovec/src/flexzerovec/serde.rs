@@ -89,9 +89,8 @@ where
 
 /// This impl requires enabling the optional `serde` Cargo feature of the `zerovec` crate
 impl Serialize for FlexZeroVec<'_> {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let mut seq = serializer.serialize_seq(Some(self.len()))?;
@@ -107,9 +106,8 @@ impl Serialize for FlexZeroVec<'_> {
 
 /// This impl requires enabling the optional `serde` Cargo feature of the `zerovec` crate
 impl Serialize for FlexZeroSlice {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         self.as_flexzerovec().serialize(serializer)
     }

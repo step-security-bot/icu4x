@@ -174,9 +174,8 @@ pub enum BreakState {
 
 #[cfg(feature = "datagen")]
 impl serde::Serialize for BreakState {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         // would be nice to use the derive serde for JSON, but can't break serialization
         if serializer.is_human_readable() {
@@ -229,9 +228,8 @@ impl zerovec::ule::AsULE for BreakState {
 
 #[cfg(feature = "datagen")]
 impl serde::Serialize for WordType {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             (*self as u8).serialize(serializer)

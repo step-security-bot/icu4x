@@ -372,17 +372,14 @@ impl AsULE for RangeOrValue {
 #[cfg(feature = "serde")]
 mod serde {
     use super::*;
-    use ::serde::{de, ser, Deserialize, Deserializer, Serialize};
+    use ::serde::{de, Deserialize, Deserializer, Serialize, Serializer};
     use alloc::{
         format,
         string::{String, ToString},
     };
 
     impl Serialize for Rule<'_> {
-        fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-        where
-            S: ser::Serializer,
-        {
+        fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
             if serializer.is_human_readable() {
                 let string: String = self.to_string();
                 serializer.serialize_str(&string)

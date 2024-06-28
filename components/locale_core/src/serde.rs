@@ -7,9 +7,8 @@ use alloc::string::ToString;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 impl Serialize for LanguageIdentifier {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         serializer.serialize_str(&self.to_string())
     }

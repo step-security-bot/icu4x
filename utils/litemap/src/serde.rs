@@ -19,10 +19,7 @@ where
     V: Serialize,
     R: Store<K, V> + Serialize,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error> {
         // Many human-readable formats don't support values other
         // than numbers and strings as map keys. For them, we can serialize
         // as a vec of tuples instead

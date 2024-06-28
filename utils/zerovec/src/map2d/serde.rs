@@ -23,9 +23,8 @@ where
     K1::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         if serializer.is_human_readable() {
             let mut serde_map = serializer.serialize_map(None)?;
@@ -62,9 +61,8 @@ where
     K1::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         let mut serde_map = serializer.serialize_map(None)?;
         for (key1, v) in self.cursor.iter1() {
@@ -86,9 +84,8 @@ where
     K1::Container: Serialize,
     V::Container: Serialize,
 {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
+    fn serialize<S: serde::Serializer>(&self, serializer: S) -> Result<S::Ok, S::Error>
+
     {
         ZeroMap2d::<K0, K1, V>::from(*self).serialize(serializer)
     }
